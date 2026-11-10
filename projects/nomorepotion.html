@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NoMorePotion | 김현준 포트폴리오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/detail.css">
+<script src="../assets/detail.js" defer></script>
+</head>
+<body>
+<nav class="topnav" aria-label="프로젝트 이동"><div class="wrap">
+<a class="home" href="../index.html">← 김현준 포트폴리오</a>
+<a href="nomorepotion.html" aria-current="page">NoMorePotion</a>
+<a href="infectstella.html">Infectstella</a>
+<a href="after-the-ring.html">After the Ring</a>
+<a href="last-magician.html">Last Magician</a>
+</div></nav>
+
+<main class="wrap">
+<header class="phead">
+<p class="kicker">기업협약 팀 프로젝트 · 진행 중</p>
+<h1>NoMorePotion</h1>
+<p class="lead">포션 하나로 생존하는 멀티플레이 생존 액션. 기획 시트가 그대로 게임 데이터가 되고, 새 효과는 코드 수정 없이 데이터 조립으로 추가되는 구조를 만들었습니다.</p>
+<div class="warn"><b>현재 개발 중인 프로젝트입니다 (2026.11.02 ~ 진행 중).</b>완성된 결과물이 아니며, 지금까지 구현하고 에디터와 PUN 오프라인 모드에서 검증한 범위를 정리했습니다. 실제 다중 클라이언트 검증과 씬 통합은 아래 '현재 상태와 다음 단계'에 남아 있습니다.</div>
+<img class="cover" src="../assets/nomorepotion-cover.jpg" alt="NoMorePotion 타이틀 아트">
+<dl class="info">
+<dt>기간</dt><dd>2026.11.02 ~ 진행 중</dd>
+<dt>인원 · 역할</dt><dd>개발 4인 · 데이터 아키텍처, 기획자용 에디터 툴, 포션 조합/폭발, 생존 상태, 버프/디버프, 함정 포션, 인벤토리 3종, 멀티플레이 동기화(팀 인벤토리 · 시체 상자 · 월드 오브젝트)</dd>
+<dt>기술</dt><dd>Unity 6000.3 · C# · ScriptableObject · Odin Inspector · UniTask · Photon PUN 2 · Unity Profiler</dd>
+<dt>기여 규모</dt><dd>커밋 34개 · 담당 영역 C# 약 8,100줄(주석·공백 포함) · SO 에셋 약 180개 자동 생성</dd>
+</dl>
+</header>
+
+<section>
+<h2>1. 이 프로젝트로 보여 드리는 것</h2>
+<div class="tablewrap"><table class="strengths">
+<thead><tr><th>강점</th><th>근거</th><th>결과</th></tr></thead>
+<tbody>
+<tr><td>측정으로 증명한다</td><td>조합 조회 키 구조체의 박싱을 Profiler로 측정하고, <code>IEquatable&lt;T&gt;</code> 구현 후 다시 측정</td><td>10만 회 조회 기준 <b>할당 300,059건 / 6.9MB → 할당 원인 목록에서 사라짐</b></td></tr>
+<tr><td>기획이 직접 다루는 데이터를 만든다</td><td>Odin 에디터 윈도우, 기획 시트(CSV) → SO 일괄 생성기, 효과 문장을 규칙 기반으로 해석</td><td>포션 72 · 재료 27 · 상태 효과 21 · 월드 오브젝트 43 생성, <b>포션 효과 276개 해석 실패 0건</b></td></tr>
+<tr><td>확장에 닫히지 않는 구조</td><td>효과를 클래스가 아닌 모듈 조립(<code>[SerializeReference]</code>)으로 설계, 에디터는 인터페이스 + 제네릭으로 통합</td><td>새 데이터 종류 추가 시 <b>에디터 수정 11줄</b>, 함정 효과는 <b>기존 폭발 경로에 인자 하나</b>로 적용</td></tr>
+<tr><td>네트워크를 모르는 규칙 코어</td><td>인벤토리·월드 오브젝트 규칙을 순수 C#으로 두고 PUN 연결은 얇은 껍데기로 분리</td><td>에디터 시뮬레이션 72개 + PUN 오프라인 Play 모드 40개 시험 통과 (동시 꺼내기 경쟁, 메시지 유실 후 복구, 늦은 입장 포함)</td></tr>
+<tr><td>공유 데이터와 런타임 상태를 분리한다</td><td>SO는 설정만, 남은 시간·횟수·틱 타이머·함정 여부는 런타임 인스턴스에 둠</td><td>여러 플레이어와 몬스터가 같은 SO를 써도 값이 오염되지 않음</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>2. 구조</h2>
+<figure><img src="../assets/nomorepotion-architecture.png" alt="포션 흐름과 상태 시스템 구조도" loading="lazy"><figcaption>보라 = 포션 흐름, 청록 = 상태 시스템. 상태 시스템은 제조 실패 확률로 포션 제작에 영향을 주고, 포션은 버프·디버프로 상태 시스템에 영향을 줍니다.</figcaption></figure>
+<ul>
+<li>ID 대역으로 데이터 종류를 구분합니다: 포션 1xxxx / 재료 2xxxx / 월드 오브젝트 3xxxx / 함정 키워드 5xxxx / 상태 효과 6xxxx</li>
+<li>SO는 private 필드 + 읽기 전용 프로퍼티로 두고, ID 변경은 <code>#if UNITY_EDITOR</code>로 제한해 런타임 변조를 막았습니다.</li>
+</ul>
+</section>
+
+<section>
+<h2>3. 핵심 구현</h2>
+
+<h3>① 기획자용 데이터 툴과 시트 → SO 일괄 생성</h3>
+<dl class="pdr">
+<dt>문제</dt><dd>재료·포션·월드 오브젝트마다 생성 버튼과 메서드가 복붙되어 있었고, 기획 시트의 수백 줄을 손으로 옮길 수 없었습니다.</dd>
+<dt>판단</dt><dd><code>IItemData</code> 인터페이스와 제네릭(<code>CreateButton&lt;T&gt;</code>, <code>CreateAsset&lt;T&gt;</code>)으로 통합하고, CSV를 읽어 SO를 만드는 생성기를 따로 둡니다.</dd>
+<dt>결과</dt><dd>함정 키워드 SO를 추가할 때 에디터 수정은 11줄. "불 속성 대미지 250", "수분 + 5%" 같은 효과 문장 276개를 실패 0건으로 효과 모듈로 변환했습니다. 이미 있는 에셋은 덮어쓰지 않고, 생성 후 YAML을 직접 열어 값을 확인했습니다.</dd>
+</dl>
+
+<h3>② 순서 무관 포션 조합 (O(1) 조회)</h3>
+<ul>
+<li>값 타입 구조체 <code>PotionRecipeSet</code>을 Dictionary 키로 쓰고, <code>Math.Min/Max</code>로 재료 ID를 정렬해 A+B와 B+A를 같은 키로 만듭니다.</li>
+<li>같은 포션 2개를 합치면 다음 등급(중 = 소+소, 대 = 중+중)이 되고, 대+대는 조합 타입 검사로 자연스럽게 거절됩니다.</li>
+<li>성능 개선 과정은 <a href="#perf">4. 성능 측정</a>에 정리했습니다.</li>
+</ul>
+
+<h3>③ 생존 상태 (체온 · 정신력 · 수분 · 포만감)</h3>
+<ul>
+<li>상태마다 변화 규칙이 달라 독립 매니저로 분리했습니다. 값은 0~100 정수이고, 변경은 <code>Increase / Decrease / Reset</code>로만 가능하며 세 경로 모두 구간 판정을 거칩니다.</li>
+<li>구간을 enum으로 표현하고 <code>Normal</code>을 0번에 두어, 초기값이 곧 정상 상태가 되게 했습니다.</li>
+<li><code>event Action&lt;Prev, Next&gt;</code>는 <b>구간이 실제로 바뀔 때만</b> 발생합니다. 조건이 유지되는 동안 반복 호출이 없고, 사망 이벤트는 플래그로 한 번만 발생합니다.</li>
+</ul>
+
+<h3>④ 버프/디버프 — 클래스를 늘리지 않는 효과 시스템</h3>
+<dl class="pdr">
+<dt>문제</dt><dd>디버프마다 클래스를 만들면 기획이 효과를 추가할 때마다 프로그래머가 필요합니다.</dd>
+<dt>판단</dt><dd>효과 = <code>StatusEffectData</code>(SO) + 조립식 모듈(수치 보정, 체력 증감, 주기 행동, 제조 실패 확률). 모듈은 <code>[SerializeReference]</code> 리스트와 Odin 타입 드롭다운으로 기획이 직접 조립합니다.</dd>
+<dt>결과</dt><dd>런타임은 <code>BuffContainer</code>가 맡습니다. 중첩 정책(<code>Unique</code> / <code>RefreshDuration</code> / <code>StrongestWins</code>), 곱연산 배율 캐싱, 건 주체(<code>source</code>) 기록으로 같은 디버프가 여러 출처에서 걸려도 서로 지우지 않습니다.</dd>
+</dl>
+<ul>
+<li><b>생존 상태 → 효과 자동 연결</b>: 구간별 효과 표를 SO로 분리하고, 구간 전환 시 <b>새 목록에 없는 효과만 제거하고 아직 없는 효과만 적용</b>합니다. 유지되는 효과는 다시 걸지 않아 주기 타이머가 초기화되지 않습니다.</li>
+<li><b>주기 행동</b>(추위 이동 정지, 허기 아이템 소모 등): 컨테이너는 발동 시점만 관리하고 이벤트로 알리며, 실제 행동은 받는 쪽이 처리합니다.</li>
+<li>틱이 필요한 효과가 있을 때만 컨테이너의 <code>Update</code>를 켜서, 몬스터가 많아도 유휴 컨테이너의 비용이 없습니다.</li>
+</ul>
+
+<h3>⑤ 포션 폭발과 함정 포션</h3>
+<ul>
+<li>범위 탐색(<code>PotionExplosion</code>) / 대상 1개에 적용(<code>PotionEffectApplier</code>) / 던져진 오브젝트(<code>Potion</code>)로 책임을 나눴습니다. <code>OverlapSphereNonAlloc</code>과 재사용 버퍼로 할당 없이 탐색합니다.</li>
+<li><b>마시기 = 내 위치에서 폭발</b>이므로 자신이 범위에 포함되어, 마시기 전용 로직이 필요 없습니다.</li>
+<li><b>함정 포션</b>: 제작 순간 정신력으로 실패를 판정해 원래 포션에 함정 키워드(13종)가 붙습니다. 같은 포션도 함정 여부가 다르므로 SO가 아닌 <code>PotionInstance</code>로 한 개씩 보관하고, 폭발 내부 함수에 키워드 인자 하나를 추가해 마시기·던지기 모두 같은 경로로 적용했습니다.</li>
+<li>실패 판정은 <code>Random.Range(0, 100) &lt; chance</code>로, 0%면 항상 성공하고 100%면 항상 실패하도록 경계값을 맞췄습니다.</li>
+</ul>
+
+<h3>⑥ 인벤토리와 멀티플레이 동기화 (PUN 2)</h3>
+<p class="note">요구: 재료·포션은 팀이 공유하고, 개인 인벤토리(10칸)는 죽으면 전부 떨어뜨려 시체 상자가 된다. 월드 오브젝트의 남은 횟수는 모두가 같게 보여야 한다.</p>
+<ul class="flow">
+<li><div class="box"><b>클라이언트 요청</b><span>요청 번호 포함</span></div></li>
+<li><div class="box"><b>마스터 검증</b><span>상태는 바꾸지 않고 확정값 생성</span></div></li>
+<li><div class="box"><b>전원 적용</b><span>마스터도 같은 경로로 적용</span></div></li>
+<li><div class="box"><b>사본 버전 +1</b><span>어긋나면 전체 목록 재요청</span></div></li>
+</ul>
+<ul>
+<li><b>인벤토리 3종</b>: 팀 재료(ID → 개수) · 팀 포션(인스턴스 보관) · 개인 10칸(칸마다 재료 또는 포션). 처음에는 앞의 둘을 조합할 계획이었지만, "아무 칸에나 무엇이든" 담는 UI와 맞지 않아 칸 배열 구조로 바꿨습니다.</li>
+<li>꺼내기는 위치가 아니라 <b>ID로</b> 요청해, 동시에 같은 포션을 집어도 먼저 도착한 한 명만 성공합니다. 랜덤과 ID 발급은 마스터만 합니다.</li>
+<li>늦게 입장한 사람은 입장 이벤트가 아니라 <b>씬 로딩이 끝난 뒤</b> "준비됨"을 보내 전체 목록을 받습니다.</li>
+<li>아이템은 byte 배열로 묶어 전송합니다(포션 한 개 = 8 byte). 길이가 맞지 않거나 모르는 ID면 예외 없이 실패하고, 값 범위 초과는 <code>checked</code>로 즉시 드러냅니다.</li>
+<li><b>시체 상자</b>: 죽으면 개인 인벤토리를 먼저 비운 뒤(복제 방지) 같은 요청 흐름으로 공유 상자를 생성합니다.</li>
+<li><b>월드 오브젝트</b>: 남은 횟수를 같은 구조로 동기화하고, 소진 시 드롭을 <b>마스터가 한 번만 굴려</b> 모두가 같은 재료와 개수를 받습니다.</li>
+<li><b>검증 방법</b>: 규칙 코어가 네트워크를 모르기 때문에 에디터에서 마스터 1 + 클라이언트 2를 흉내 내어 시험하고, PUN 오프라인 모드로 실제 RPC 경로까지 확인했습니다. PUN 소스를 읽어 <code>RpcTarget.All</code>이 로컬에서도 실행된다는 점을 확인하고 오프라인 시험의 한계를 파악했습니다.</li>
+</ul>
+</section>
+
+<section id="perf">
+<h2>4. 성능 측정: 조합 키의 박싱 제거</h2>
+<dl class="pdr">
+<dt>발견</dt><dd>구조체 키에 <code>IEquatable&lt;T&gt;</code>가 없어 Dictionary가 기본 비교를 쓰고, 조회 1회당 약 3건의 힙 할당이 발생했습니다.</dd>
+<dt>측정</dt><dd>에디터 전용 <code>[Button]</code> 테스트로 레시피 조회를 N회 반복하고 Profiler로 확인했습니다 (Unity 6000.3 에디터).</dd>
+<dt>결과</dt><dd>10만 회 기준 <b>300,059건 / 6.9MB → <code>PotionRecipe Lookup</code>이 할당 원인 목록에서 사라짐</b> (프레임 전체 16건 / 3.0KB)</dd>
+</dl>
+<div class="g2">
+<figure><img src="../assets/nomorepotion-profiler-before.png" alt="수정 전 Profiler" loading="lazy"><figcaption>수정 전: 조회 10만 회, 할당 300,059건 / 6.9MB</figcaption></figure>
+<figure><img src="../assets/nomorepotion-profiler-after-100k.png" alt="수정 후 Profiler 10만 회" loading="lazy"><figcaption>수정 후: 조회 10만 회</figcaption></figure>
+</div>
+<figure class="narrow"><img src="../assets/nomorepotion-profiler-after-1m.png" alt="수정 후 Profiler 100만 회" loading="lazy"><figcaption>수정 후: 조회 100만 회</figcaption></figure>
+<details class="code"><summary>코드 — 수정 전 / 수정 후</summary>
+<pre><code>// 수정 전: 비교 방법을 제공하지 않아 Dictionary 가 기본 비교(박싱 가능)를 사용
+public struct PotionRecipeSet
+{
+    public int firstIngredientID;
+    public int secondIngredientID;
+}
+
+// 수정 후
+public struct PotionRecipeSet : IEquatable&lt;PotionRecipeSet&gt;
+{
+    public int firstIngredientID;
+    public int secondIngredientID;
+
+    public bool Equals(PotionRecipeSet other)
+        =&gt; firstIngredientID == other.firstIngredientID
+        &amp;&amp; secondIngredientID == other.secondIngredientID;
+
+    public override bool Equals(object obj) =&gt; obj is PotionRecipeSet other &amp;&amp; Equals(other);
+
+    public override int GetHashCode() =&gt; HashCode.Combine(firstIngredientID, secondIngredientID);
+}</code></pre>
+</details>
+</section>
+
+<section>
+<h2>5. 트러블슈팅</h2>
+<h3>SO 데이터가 에디터 재시작 후 기본값으로 돌아감</h3>
+<dl class="pdr">
+<dt>현상</dt><dd>Odin 툴로 입력한 값이 다음 날 초기값으로 되돌아갔습니다.</dd>
+<dt>원인</dt><dd><code>[ShowInInspector]</code>만 있고 <code>[SerializeField]</code>가 없어, 표시·편집은 되지만 직렬화되지 않았습니다. 에디터가 켜져 있는 동안은 메모리 값이 남아 있어 발견이 늦었습니다.</dd>
+<dt>교훈</dt><dd>"화면에 보이는 것"과 "저장되는 것"은 다릅니다. 이후 데이터 작업은 <code>.asset</code> YAML 확인을 검증 단계에 넣었습니다.</dd>
+</dl>
+<h3>곱연산 중첩 수치가 기획 의도와 다름</h3>
+<dl class="pdr">
+<dt>현상</dt><dd>시야 −20%와 −90%가 겹치면 90%가 아니라 약 92%가 감소했습니다 (0.8 × 0.1 = 0.08).</dd>
+<dt>해결</dt><dd>정수 퍼센트로 정확한 값(−87.5%)을 표현할 수 없어, 합이 가장 가까운 −88%로 기획과 조정했습니다.</dd>
+<dt>교훈</dt><dd>곱연산은 "각 효과의 수치"와 "겹쳤을 때의 합"이 다르므로, 겹치는 구간은 합을 기준으로 검증합니다.</dd>
+</dl>
+<h3>시험 중 발견한 인벤토리·네트워크 결함</h3>
+<ul>
+<li>시체 상자 요청에 null 칸을 넘기면 직렬화 단계에서 예외 → 빈 목록으로 보내 마스터가 "잘못된 요청"으로 거부하게 수정</li>
+<li>ID가 0인 포션이 시체 상자로 가면 풀 수 없어 내용이 사라질 위험 → 넣을 때 ID가 없으면 부여하도록 수정</li>
+<li>교훈: 네트워크 문제처럼 보여도 대부분 규칙 코어에서 재현되므로, 전송과 규칙을 분리해 두면 에디터에서 먼저 잡을 수 있습니다.</li>
+</ul>
+</section>
+
+<section>
+<h2>6. 현재 상태와 다음 단계</h2>
+<p class="note">지금까지의 검증은 에디터 테스트 버튼, Profiler, 에셋 YAML 확인, 마스터 1 + 클라이언트 2 시뮬레이션, PUN 오프라인 Play 모드 시험으로 진행했습니다. <b>실제 클라이언트 둘 이상을 띄운 네트워크 검증과 실제 씬 통합 검증은 아직 하지 않았습니다.</b></p>
+<ol>
+<li>실제 다중 클라이언트 검증: 빌드 둘로 팀 인벤토리·시체 상자·월드 오브젝트 동기화 확인</li>
+<li>바닥 재료 줍기 동기화, 죽을 때 시체 상자 생성 연결, 양손 칸</li>
+<li>포션 폭발의 네트워크 전파와 월드 오브젝트 대미지 중복 방지</li>
+<li>Play 모드 통합 검증과 팀원 시스템(전투, 플레이어, UI) 연결</li>
+</ol>
+</section>
+
+<nav class="pager" aria-label="다른 프로젝트"><a href="../index.html">← 전체 포트폴리오</a><a href="infectstella.html">다음: Infectstella →</a></nav>
+</main>
+</body>
+</html>

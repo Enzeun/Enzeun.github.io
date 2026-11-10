@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infectstella | 김현준 포트폴리오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/detail.css">
+<script src="../assets/detail.js" defer></script>
+</head>
+<body>
+<nav class="topnav" aria-label="프로젝트 이동"><div class="wrap">
+<a class="home" href="../index.html">← 김현준 포트폴리오</a>
+<a href="nomorepotion.html">NoMorePotion</a>
+<a href="infectstella.html" aria-current="page">Infectstella</a>
+<a href="after-the-ring.html">After the Ring</a>
+<a href="last-magician.html">Last Magician</a>
+</div></nav>
+
+<main class="wrap">
+<header class="phead">
+<p class="kicker">네트워크 팀 프로젝트 · itch.io 출시</p>
+<h1>Infectstella</h1>
+<p class="lead">함께 파밍하다 누군가 감염되는 최대 4인 협동·배신 멀티플레이 게임. 접속부터 게임 진입, 정산, 랭킹 등록까지 클라이언트 진행 흐름 전 구간을 맡았고, 여러 사람이 함께 바꾸는 값은 마스터 클라이언트 한 곳에서만 바뀌도록 구조를 통일했습니다.</p>
+<img class="cover" src="../assets/infectstella-cover.webp" alt="Infectstella 타이틀 아트">
+<dl class="info">
+<dt>기간</dt><dd>2주 (2026.10.12 ~ 10.23)</dd>
+<dt>인원 · 역할</dt><dd>3인 팀 · 로비 / 게임 진행 / UI / Firebase 백엔드 / 시스템 통합</dd>
+<dt>기술</dt><dd>Unity 6 · C# · Photon PUN 2 · Firebase (Anonymous Auth, Realtime DB) · UniTask · More Mountains Feedbacks</dd>
+<dt>기여 규모</dt><dd>커밋 114개 (merge 제외) · 담당 스크립트 19개, 약 3,800줄</dd>
+<dt>링크</dt><dd class="links"><a href="https://enzeun.itch.io/infectstella" target="_blank" rel="noopener">itch.io에서 플레이</a><a href="https://github.com/Enzeun/Infectstellar_NetworkTeamProject" target="_blank" rel="noopener">GitHub</a></dd>
+</dl>
+</header>
+
+<section>
+<h2>1. 이 프로젝트로 보여 드리는 것</h2>
+<div class="tablewrap"><table class="strengths">
+<thead><tr><th>강점</th><th>근거</th><th>결과</th></tr></thead>
+<tbody>
+<tr><td>권한을 기준으로 상태를 다룬다</td><td>골드·탈출·문·게임 상태 전환을 모두 "요청 → 마스터 검증 → 전체 동기화" 한 가지 패턴으로 통일. RPC를 받는 쪽에서도 마스터인지 다시 확인</td><td>클라이언트마다 값이 갈라지는 경우를 구조로 차단</td></tr>
+<tr><td>비동기 흐름을 끝까지 책임진다</td><td>클라이언트별 로딩 완료를 Custom Property로 공유하고, 마스터가 전원 완료를 확인한 뒤 RPC로 씬 활성화. UniTask 취소·타임아웃 처리</td><td>로딩이 빠른 플레이어만 먼저 게임에 들어가는 문제 방지</td></tr>
+<tr><td>여러 시스템을 하나의 흐름으로 묶는다</td><td>Firebase 인증 → 로비 → 로딩 → FSM 게임 진행 → 정산 → 랭킹 등록까지 직접 연결</td><td>접속부터 결과까지 끊기지 않는 플레이 흐름</td></tr>
+<tr><td>사용자 체감까지 마무리한다</td><td>방 목록 차등 갱신, 채팅·버튼 피드백, 상태별 정보창</td><td>상태 변화가 화면과 소리로 바로 전달됨</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>2. 구조</h2>
+<ul class="flow">
+<li><div class="box"><b>FirebaseLinkManager</b><span>익명 인증 · 닉네임</span></div></li>
+<li><div class="box"><b>PhotonLinkManager</b><span>로비 · 방 · 대기실</span></div></li>
+<li><div class="box"><b>LoadingHelper</b><span>전원 로딩 확인</span></div></li>
+<li><div class="box"><b>GameManager</b><span>FSM · 골드 · 감염 · 정산</span></div></li>
+<li><div class="box"><b>Firebase</b><span>랭킹 등록</span></div></li>
+</ul>
+<p><code>PlayerDataObserver</code>가 플레이어별 상태(<code>ActorNumber</code> 기준)를 <code>GameManager</code>에 등록하고, 사망·부활 이벤트로 종료 조건을 판정합니다.</p>
+</section>
+
+<section>
+<h2>3. 핵심 구현</h2>
+
+<h3>① 마스터 권한 기반 상태 동기화</h3>
+<dl class="pdr">
+<dt>문제</dt><dd>골드처럼 모두가 공유하는 값을 각 클라이언트가 직접 바꾸면, 동시에 요청할 때 값이 클라이언트마다 달라집니다.</dd>
+<dt>판단</dt><dd>값의 주인을 마스터 클라이언트 하나로 정하고, 다른 클라이언트는 "요청"만 보냅니다.</dd>
+<dt>결과</dt><dd>요청 → 마스터 재검증 → 계산 → 전체 동기화의 4단계 흐름. 같은 구조를 탈출, 문 토글, 게임 상태 전환에도 적용했습니다.</dd>
+</dl>
+<details class="code" open><summary>코드 — 골드 지급 흐름</summary>
+<pre><code>// 1. 진입점: 마스터면 직접 처리, 아니면 마스터에게 요청
+public void RequestAddGold(int amount)
+{
+    if (PhotonNetwork.IsMasterClient)
+        ExecuteAddGold(amount);
+    else
+        photonView.RPC(nameof(RPC_RequestAddGold), RpcTarget.MasterClient, amount);
+}
+
+// 2. 마스터만 받는 RPC: 받는 쪽에서도 한 번 더 검증
+[PunRPC]
+private void RPC_RequestAddGold(int amount)
+{
+    if (!PhotonNetwork.IsMasterClient) return;
+    ExecuteAddGold(amount);
+}
+
+// 3. 계산은 마스터에서만, 결과를 전체에 전파
+private void ExecuteAddGold(int amount)
+{
+    currentGold += amount;
+    photonView.RPC(nameof(RPC_SyncGold), RpcTarget.All, currentGold);
+}
+
+// 4. 모든 클라이언트가 같은 값으로 갱신
+[PunRPC]
+public void RPC_SyncGold(int syncedGold)
+{
+    currentGold = syncedGold;
+    OnGoldChanged?.Invoke();
+}</code></pre>
+</details>
+
+<h3>② 전원 로딩 확인 후 게임 씬 진입</h3>
+<dl class="pdr">
+<dt>문제</dt><dd>클라이언트마다 씬 로딩 속도가 달라서, 자동 씬 동기화를 쓰면 먼저 로딩된 플레이어가 혼자 게임을 시작합니다.</dd>
+<dt>판단</dt><dd><code>AutomaticallySyncScene</code>을 끄고, 씬 활성화 시점을 마스터가 직접 결정합니다.</dd>
+<dt>결과</dt><dd>각 클라이언트는 로딩 진행률이 0.9에 도달하면 <code>SceneLoaded</code> 속성을 true로 올리고, 마스터가 전원 완료를 확인하면 RPC로 씬을 활성화합니다. 120초 안에 전원이 준비되지 않으면 타이틀로 돌아갑니다.</dd>
+</dl>
+<figure class="narrow"><img src="../assets/infectstella-loading.webp" alt="멀티플레이 로딩 후 게임 씬 진입" loading="lazy"><figcaption>전원 로딩 완료를 확인한 뒤 게임 씬에 진입</figcaption></figure>
+
+<h3>③ Firebase 인증 · 닉네임 · 랭킹</h3>
+<ul>
+<li>익명 인증 → 닉네임 로드·저장 → 랭킹 등록·조회까지 UniTask 비동기로 연결했습니다. 초기화 중에는 로딩 화면을 보여 줍니다.</li>
+<li>랭킹은 <code>OrderByChild("earnedGold").LimitToLast(n)</code>으로 상위 n개를 받아 내림차순으로 정렬하고, 등록은 마스터만 수행해 중복 등록을 막았습니다.</li>
+</ul>
+<div class="g2">
+<figure><img src="../assets/infectstella-init.gif" alt="Firebase 사용자 초기화" loading="lazy"><figcaption>Firebase 사용자 초기화</figcaption></figure>
+<figure><img src="../assets/infectstella-ranking.webp" alt="Firebase 랭킹 연동" loading="lazy"><figcaption>랭킹 확인</figcaption></figure>
+<figure><img src="../assets/infectstella-nickname.gif" alt="닉네임 변경" loading="lazy"><figcaption>닉네임 변경</figcaption></figure>
+<figure><img src="../assets/infectstella-menu.gif" alt="FSM 기반 메뉴 전환" loading="lazy"><figcaption>FSM 기반 메뉴 전환</figcaption></figure>
+</div>
+
+<h3>④ 로비와 대기실</h3>
+<ul>
+<li>방 생성·참가·빠른 매칭, 입장·퇴장에 따른 대기실 갱신, 채팅과 시스템 메시지를 구현했습니다.</li>
+<li>색상·준비·씬 로딩 상태는 Player Custom Properties로 공유하고, 속성 변경 콜백을 이벤트로 UI에 연결했습니다.</li>
+<li><b>방 목록 차등 갱신</b>: 목록이 바뀔 때마다 UI를 전부 다시 만들지 않고, 기존 항목은 재사용·갱신하고 새 방만 추가하며 사라진 방만 제거합니다.</li>
+</ul>
+<details class="code"><summary>코드 — 방 목록 UI 차등 갱신</summary>
+<pre><code>refreshCount++;
+
+foreach (var room in rooms)
+{
+    bool found = false;
+    foreach (var rc in roomContents)
+    {
+        if (rc.roomInfo.Name == room.Name)
+        {
+            rc.roomInfo = room;
+            rc.refreshCount = refreshCount;
+            rc.RefreshRoomContent();
+            found = true;
+            break;
+        }
+    }
+
+    if (!found)
+        InstancitateRoom(room);
+}
+
+// 이번 갱신에서 확인되지 않은 항목만 제거 (구독 해제 후 파괴)
+for (int i = roomContents.Count - 1; i &gt;= 0; i--)
+{
+    if (roomContents[i].refreshCount != refreshCount)
+    {
+        roomContents[i].OnSelected -= ChangeSelectedRoom;
+        roomContents[i].DestroyThisRoom();
+        roomContents.RemoveAt(i);
+    }
+}</code></pre>
+</details>
+<div class="g2">
+<figure><img src="../assets/infectstella-lobby.webp" alt="로비 방 목록 동기화" loading="lazy"><figcaption>방 목록 동기화</figcaption></figure>
+<figure><img src="../assets/infectstella-room.webp" alt="방 생성" loading="lazy"><figcaption>방 생성과 대기실 입장</figcaption></figure>
+<figure><img src="../assets/infectstella-master.gif" alt="자동 방장 변경" loading="lazy"><figcaption>방장이 나가면 자동으로 방장 변경</figcaption></figure>
+<figure><img src="../assets/infectstella-enterleave.gif" alt="플레이어 입장과 퇴장" loading="lazy"><figcaption>플레이어 입장·퇴장 반영</figcaption></figure>
+<figure><img src="../assets/infectstella-color.gif" alt="플레이어 색 변경" loading="lazy"><figcaption>플레이어 색 변경</figcaption></figure>
+<figure><img src="../assets/infectstella-ready.gif" alt="플레이어 준비 및 시작" loading="lazy"><figcaption>준비 완료 후 시작</figcaption></figure>
+</div>
+
+<h3>⑤ 게임 진행 FSM · 감염 · 정산</h3>
+<ul>
+<li>게임 진행을 8개 상태의 <code>MMStateMachine</code>으로 관리하고, 상태 전환은 마스터만 RPC로 전파합니다.</li>
+<li><b>감염</b>: 시작 3분 뒤 첫 시도, 이후 1분마다 20% 확률로 살아 있는 플레이어 중 한 명을 마스터가 선정합니다.</li>
+</ul>
+<table>
+<thead><tr><th>결과</th><th>정산</th></tr></thead>
+<tbody>
+<tr><td>탈출 성공</td><td>보유 금액 100% 반영</td></tr>
+<tr><td>일반 플레이어 사망</td><td>1명당 20% 차감</td></tr>
+<tr><td>감염자 처치 후 탈출</td><td>40% 보너스</td></tr>
+<tr><td>감염자 단독 생존</td><td>50% 보너스, 감염자만 랭킹 등록</td></tr>
+</tbody></table>
+<div class="g2">
+<figure><img src="../assets/infectstella-hud-a.jpg" alt="게임 정보창" loading="lazy"><figcaption>게임 상태에 따라 갱신되는 정보창</figcaption></figure>
+<figure><img src="../assets/infectstella-hud-b.jpg" alt="감염자 발생 후 정보창" loading="lazy"><figcaption>플레이어 사망·골드·감염자 발생 반영</figcaption></figure>
+</div>
+
+<h3>⑥ UI 시청각 피드백</h3>
+<div class="g2">
+<figure><img src="../assets/infectstella-button.gif" alt="버튼 피드백" loading="lazy"><figcaption>버튼 크기 변화와 흔들림, 효과음</figcaption></figure>
+<figure><img src="../assets/infectstella-chat.gif" alt="채팅 피드백" loading="lazy"><figcaption>채팅 입력 흔들림과 수신음, 자동 스크롤</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>4. 트러블슈팅</h2>
+<h3>PhotonView ViewID 중복으로 매니저가 파괴됨</h3>
+<dl class="pdr">
+<dt>현상</dt><dd>게임 종료 후 타이틀 씬으로 돌아가면 <code>DontDestroyOnLoad</code> 싱글턴 매니저가 파괴됐습니다.</dd>
+<dt>원인</dt><dd>이미 살아 있는 매니저의 PhotonView와 타이틀 씬에 배치된 PhotonView의 ViewID가 중복됐습니다.</dd>
+<dt>해결</dt><dd>타이틀 진입 전 전용 초기화 씬에서 매니저를 생성하고, 이후 초기화 씬에 다시 들어가지 않도록 씬 흐름을 수정했습니다.</dd>
+<dt>교훈</dt><dd>씬을 넘나드는 네트워크 객체는 "어느 씬에서 한 번만 생성되는가"를 먼저 설계해야 합니다.</dd>
+</dl>
+</section>
+
+<section>
+<h2>5. 한계와 회고</h2>
+<ul>
+<li><b>GameManager에 책임 집중 (1,042줄)</b>: FSM, 골드, 감염, 탈출, 랭킹, 정산이 한 클래스에 있습니다. 2주 일정에서 통합 속도를 우선한 결과로, 확장한다면 골드·감염·정산을 별도 클래스로 분리하겠습니다.</li>
+<li><b>요청 값 검증 부재</b>: 권한은 마스터로 모았지만, 클라이언트가 보낸 금액 자체는 검증하지 않습니다. 판매 아이템을 기준으로 금액을 다시 계산하는 것이 다음 과제입니다.</li>
+<li><b>사후 코드 재검토</b>: 포트폴리오를 정리하며 코드를 다시 읽고 조건문 오류 4건(감염 타이머 반복 조건, Photon 초기화 대기 조건, 로딩 타임아웃 예외 처리, 결과 판정 조건)을 찾아 수정했습니다. 조건문은 "의도를 문장으로 읽었을 때 맞는가"로 다시 확인하는 습관을 들였습니다.</li>
+</ul>
+</section>
+
+<nav class="pager" aria-label="다른 프로젝트"><a href="nomorepotion.html">← 이전: NoMorePotion</a><a href="after-the-ring.html">다음: After the Ring →</a></nav>
+</main>
+</body>
+</html>

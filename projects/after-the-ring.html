@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>After the Ring | 김현준 포트폴리오</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/detail.css">
+<script src="../assets/detail.js" defer></script>
+</head>
+<body>
+<nav class="topnav" aria-label="프로젝트 이동"><div class="wrap">
+<a class="home" href="../index.html">← 김현준 포트폴리오</a>
+<a href="nomorepotion.html">NoMorePotion</a>
+<a href="infectstella.html">Infectstella</a>
+<a href="after-the-ring.html" aria-current="page">After the Ring</a>
+<a href="last-magician.html">Last Magician</a>
+</div></nav>
+
+<main class="wrap">
+<header class="phead">
+<p class="kicker">1인 개인 프로젝트 · itch.io 출시</p>
+<h1>After the Ring</h1>
+<p class="lead">UHFPS 프레임워크 위에서 만든 1인 공포 게임. 프레임워크 원본은 한 곳만 고치고, 필요한 기믹은 기존 이벤트를 구독하는 독립 C# 컴포넌트로 확장했습니다.</p>
+<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/2PpvqcETudA" title="After the Ring 트레일러" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<dl class="info">
+<dt>기간</dt><dd>약 3주 (2026.08.19 ~ 09.10)</dd>
+<dt>인원 · 역할</dt><dd>1인 · 기획, 맵, 연출, 프로그래밍 전체</dd>
+<dt>기술</dt><dd>Unity 6 · C# · UHFPS · UniTask · DOTween · Odin Inspector</dd>
+<dt>기여 규모</dt><dd>커밋 91개 · 직접 작성 스크립트 17개, 약 1,500줄 · 7개 언어 현지화</dd>
+<dt>링크</dt><dd class="links"><a href="https://enzeun.itch.io/after-the-ring" target="_blank" rel="noopener">itch.io에서 플레이</a><a href="https://youtu.be/2PpvqcETudA" target="_blank" rel="noopener">트레일러</a><a href="https://github.com/Enzeun/Project_HorrorGame_First" target="_blank" rel="noopener">GitHub</a></dd>
+</dl>
+<figure class="narrow"><img src="../assets/afterthering-itch.png" alt="itch.io 통계" loading="lazy"><figcaption>itch.io 통계 (2026년 9월 28일 기준)</figcaption></figure>
+</header>
+
+<section>
+<h2>1. 이 프로젝트로 보여 드리는 것</h2>
+<div class="tablewrap"><table class="strengths">
+<thead><tr><th>강점</th><th>근거</th><th>결과</th></tr></thead>
+<tbody>
+<tr><td>고칠 것과 확장할 것을 구분한다</td><td>프레임워크 원본 수정은 Objective 완료 처리 1곳으로 한정하고 수정 위치에 <code>// [ENZEUN 추가]</code> 표시. 나머지는 이벤트를 구독하는 독립 컴포넌트</td><td>프레임워크를 업데이트할 때 충돌하는 지점이 한 곳뿐</td></tr>
+<tr><td>기믹을 코드 없이 조립하게 한다</td><td>런타임 이벤트 바인더 5종: 중복 바인딩 방지, 일회성 실행, 파괴 시 해제</td><td>문·아이템·조명·목표·암전을 인스펙터에서 연결해 연출 제작</td></tr>
+<tr><td>비동기 연출을 하나의 시퀀스로 다룬다</td><td>자막·암전·텔레포트를 UniTask로 연결, 코루틴 0개, 파괴 시 취소 토큰</td><td>입력 잠금과 해제까지 포함한 연출 흐름</td></tr>
+<tr><td>출시까지 완성한다</td><td>1인으로 기획부터 빌드, 7개 언어 현지화, 빌드 크기 분석 도구 제작</td><td>itch.io 출시</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>2. 구조</h2>
+<ul class="flow">
+<li><div class="box"><b>UHFPS 컴포넌트</b><span>문 · 아이템 · 조명 · 목표</span></div></li>
+<li><div class="box"><b>런타임 이벤트 바인더 5종</b><span>기존 이벤트에 붙였다 뗌</span></div></li>
+<li><div class="box"><b>UnityEvent</b><span>인스펙터에서 연결</span></div></li>
+<li><div class="box"><b>연출 컴포넌트</b><span>자막 · 암전 · 텔레포트 · 문 잠금</span></div></li>
+</ul>
+<p>UHFPS의 인스펙터 이벤트 연결만으로는 "특정 시점에만 반응"하는 기믹을 만들 수 없어서, 중간에 런타임 바인딩 계층을 두었습니다. 연출 컴포넌트끼리는 서로를 직접 참조하지 않습니다.</p>
+</section>
+
+<section>
+<h2>3. 핵심 구현</h2>
+
+<h3>① 런타임 이벤트 바인딩</h3>
+<dl class="pdr">
+<dt>문제</dt><dd>UHFPS는 인스펙터 기반 이벤트 연결만 지원해서, "이 자막이 끝난 뒤 문을 열면" 같은 조건부 반응을 만들기 어려웠습니다.</dd>
+<dt>판단</dt><dd>원본 컴포넌트를 고치지 않고, 기존 이벤트에 런타임에 리스너를 붙였다 떼는 바인더를 따로 둡니다.</dd>
+<dt>결과</dt><dd>바인더 5종이 같은 규칙을 따릅니다. <code>isBound</code>로 중복 바인딩을 막고, <code>triggerOnce</code>면 한 번 실행 후 스스로 해제하며, 바인딩된 채로 파괴되면 <code>OnDestroy</code>에서 해제합니다.</dd>
+</dl>
+<table>
+<thead><tr><th>컴포넌트</th><th>바인딩 대상</th></tr></thead>
+<tbody>
+<tr><td><code>DynamicObjectEventBinder</code></td><td>문 Open / Close / Locked</td></tr>
+<tr><td><code>InteractableItemRuntimeEventBinder</code></td><td>Take / Examine Start / Examine End</td></tr>
+<tr><td><code>InteractableLightRuntimeEventBinder</code></td><td>Light On / Off</td></tr>
+<tr><td><code>ObjectiveCompleteRuntimeBinder</code></td><td>Objective Complete</td></tr>
+<tr><td><code>EyeBlinkEventBinder</code></td><td>Eyes Close / Open</td></tr>
+</tbody></table>
+<details class="code"><summary>코드 — DynamicObjectEventBinder</summary>
+<pre><code>public void BindOpen()
+{
+    if (target == null || isBound)
+        return;
+
+    isBound = true;
+    target.useEvent1.AddListener(HandleOpen);
+}
+
+private void HandleOpen()
+{
+    OnOpen?.Invoke();
+
+    if (triggerOnce)
+    {
+        target.useEvent1.RemoveListener(HandleOpen);
+        isBound = false;
+    }
+}
+
+// 바인딩된 상태로 파괴되면 target 에 리스너가 남으므로 해제
+private void OnDestroy()
+{
+    RemoveBoundEvent();
+}</code></pre>
+</details>
+<figure class="narrow"><img src="../assets/afterthering-binding.webp" alt="런타임 이벤트 바인딩을 이용한 암전 전환" loading="lazy"><figcaption>바인더로 암전(눈 감기)과 텔레포트를 묶은 장면 전환</figcaption></figure>
+
+<h3>② 자막 시스템</h3>
+<ul>
+<li><code>SubtitleAsset</code>(SO, 현지화 문자열과 표시 시간) → <code>SubtitleTrigger</code>(자막 목록, 시작 전후 대기, 이동·시점 잠금, 종료 이벤트) → <code>SubtitleManager</code>(표시 연출)</li>
+<li>DOTween <code>DOText</code>를 UniTask로 기다려 자막을 순서대로 재생하고, 오브젝트가 파괴되면 취소 토큰으로 중단합니다.</li>
+<li>입력 잠금은 try/finally로 감싸서, 정상 종료든 취소든 반드시 풀리게 했습니다.</li>
+</ul>
+<figure class="narrow"><img src="../assets/afterthering-subtitle.webp" alt="Subtitle System" loading="lazy"><figcaption>UniTask 기반 자막 시퀀스와 입력 제어</figcaption></figure>
+
+<h3>③ 암전 연출과 텔레포트</h3>
+<ul>
+<li><b>EyeBlinkController</b>: UHFPS의 EyeBlink 포스트 프로세스 볼륨을 제어해 눈 감기 → 유지 → 눈 뜨기를 구현했습니다. 평소에는 컴포넌트를 꺼서 <code>Update</code> 비용이 없고, 연출이 끝나면 스스로 꺼집니다.</li>
+<li><code>OnEyesClosed</code> / <code>OnEyesOpened</code> 이벤트로, 시야가 가려진 순간에 다음 로직(텔레포트)이 실행되도록 분리했습니다.</li>
+<li><b>Teleport</b>: 요청(<code>TeleportTrigger</code>)과 처리(<code>TeleportManager</code>)를 나누고, 이동 중에는 <code>DragRigidbody</code>를 꺼서 물리 간섭으로 위치가 틀어지지 않게 했습니다.</li>
+</ul>
+<figure class="narrow"><img src="../assets/afterthering-eyeblink.gif" alt="Eye Blink Controller" loading="lazy"><figcaption>눈 감기 → 유지 → 눈 뜨기</figcaption></figure>
+
+<h3>④ 이벤트 후 문을 닫고 잠그기</h3>
+<p>문이 열려 있으면 닫힘 애니메이션 종료 이벤트를 한 번만 구독한 뒤 문을 닫고, 닫힘이 끝나면 잠근 다음 <code>OnFinished</code>로 다음 이벤트를 연결합니다. 애니메이션이 끝나기 전에 잠기는 문제와 리스너 중복 등록을 막았습니다.</p>
+<figure class="narrow"><img src="../assets/afterthering-lockdoor.webp" alt="LockDoorAfterEvent" loading="lazy"><figcaption>특정 이벤트 후 문을 닫고 잠그는 기믹</figcaption></figure>
+
+<h3>⑤ NPC 시선 제어</h3>
+<p>NPC 정면과 플레이어 방향 사이의 수평 각도를 계산해, 시야각(70°) 안에 들어오면 <code>LookAtConstraint.weight</code>를 0 → 1로 보간합니다. 강제 weight 모드를 두어, 연출 중 갑자기 고개를 돌리는 공포 연출에 활용했습니다.</p>
+<figure class="narrow"><img src="../assets/afterthering-npc.webp" alt="NPC LookAt" loading="lazy"><figcaption>시야각 기반 NPC 시선 전환</figcaption></figure>
+</section>
+
+<section>
+<h2>4. 트러블슈팅</h2>
+<h3>Objective 완료가 중복으로 발생</h3>
+<figure class="narrow"><img src="../assets/afterthering-objective.webp" alt="Objective 중복 완료 문제" loading="lazy"><figcaption>문제 재현: 목표를 달성한 뒤에도 다른 음식을 먹으면 "목표 달성"이 다시 발생</figcaption></figure>
+<dl class="pdr">
+<dt>원인</dt><dd>완료 처리 과정에 Objective / SubObjective의 완료 상태 검증이 없었습니다.</dd>
+<dt>해결</dt><dd>완료 상태를 먼저 확인해 건너뛰고, 전체 SubObjective가 완료되었을 때만 완료 이벤트를 발생시킵니다.</dd>
+<dt>판단</dt><dd>상태 검증은 <code>ObjectiveManager</code> 내부 처리 순서 안에 있어야 해서, 이 프로젝트에서 유일하게 <b>원본을 직접 수정</b>했습니다. 수정 위치 4곳에 <code>// [ENZEUN 추가]</code> 주석을 남겨, 프레임워크를 업데이트할 때 추적할 수 있게 했습니다.</dd>
+</dl>
+<pre class="solo"><code>if (data.IsCompleted.Value) return;        // [ENZEUN 추가] 완료된 목표는 건너뛰기
+...
+if (subData.IsCompleted.Value) continue;   // [ENZEUN 추가] 이미 완료된 세부 목표 건너뛰기</code></pre>
+
+<h3>자막과 다른 시스템의 입력 상태 충돌</h3>
+<dl class="pdr">
+<dt>현상</dt><dd>아이템 살펴보기(Examine)가 끝나자마자 자막이 시작되면, 자막이 건 입력 잠금이 풀려 버렸습니다.</dd>
+<dt>원인</dt><dd>여러 시스템이 같은 플레이어 입력 상태를 따로 바꾸면서, 실행 순서에 따라 Examine 종료의 "잠금 해제"가 자막의 "잠금"을 덮어썼습니다.</dd>
+<dt>해결</dt><dd>프레임워크의 입력 제어는 건드리지 않고, 자막 시작을 <code>UniTask.Delay</code>로 늦춰 실행 순서를 분리했습니다.</dd>
+<dt>판단</dt><dd>근본 해결이 아닌 <b>임시 해결</b>임을 알고 선택했습니다. 출시 일정 안에서 프레임워크의 입력 구조를 바꾸는 위험이 더 컸습니다.</dd>
+</dl>
+</section>
+
+<section>
+<h2>5. 한계와 회고</h2>
+<ul>
+<li><b>입력 잠금의 주인이 없음</b>: 여러 시스템이 입력을 잠그고 푸는 구조는 그대로이고, 지금은 실행 시점만 나눠 두었습니다. 다음에는 잠금 요청을 우선순위와 함께 모아 한 곳에서 판정하는 구조로 바꾸겠습니다.</li>
+<li><b>사후 코드 재검토</b>: 포트폴리오를 정리하며 다시 읽어 보니, 바인더가 파괴될 때 리스너를 해제하지 않고 있었고, 자막 도중 오브젝트가 파괴되면 입력이 잠긴 채 남을 수 있었습니다. <code>OnDestroy</code> 해제와 try/finally로 수정했고, "등록한 곳에는 반드시 해제가 있는가"를 리뷰 체크 항목에 추가했습니다.</li>
+</ul>
+</section>
+
+<nav class="pager" aria-label="다른 프로젝트"><a href="infectstella.html">← 이전: Infectstella</a><a href="last-magician.html">다음: Last Magician →</a></nav>
+</main>
+</body>
+</html>
