@@ -35,11 +35,11 @@ header.hero{padding:88px 0 56px}
 @media print{.intro{grid-template-columns:90px 1fr;gap:16px;margin-bottom:10px}.intro .me{width:90px;height:115px}}
 .about-text p{margin:0 0 12px;max-width:72ch;font-size:1.02rem}
 h3.sub{font-size:1.05rem;margin:32px 0 16px}
-.hero .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 32px}
+.hero .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 32px}
 .hero .stats strong{font-size:1.6rem;word-break:keep-all}
 @media (max-width:900px){.hero .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:480px){.hero .stats{grid-template-columns:1fr}}
-@media print{.hero .stats{grid-template-columns:repeat(4,1fr);gap:8px 16px}.hero .stats strong{font-size:13pt}}
+@media print{.hero .stats{grid-template-columns:repeat(3,1fr);gap:8px 16px}.hero .stats strong{font-size:13pt}}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px;padding:0;list-style:none}
 .tags li{background:var(--tag);padding:3px 12px;border-radius:99px;font-size:.88rem}
 .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:700}
@@ -158,7 +158,6 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
 </div></div>
 <ul class="stats">
 <li><strong>3년 8개월</strong>첫 회사에서 게임 개발 실무<br>출시·납품 3건을 끝까지<span class="src">(주)브릴라 · 2019.12~2023.07</span></li>
-<li><strong>2년</strong>개발을 떠나 있던 동안<br>영업팀에서 생활을 책임짐<span class="src">코카콜라음료 하남지점 · 2024.05~2026.05</span></li>
 <li><strong>영상 410+</strong>2023년 8월부터 꾸준히 올린<br>공포게임 영상 (구독자 3,500+)<span class="src">유튜브 '언즌' · 2023.08~</span></li>
 <li><strong>300,059 → 0</strong>추측 대신 Profiler로 측정하고<br>제거한 힙 할당<span class="src">NoMorePotion · CBT 제출</span></li>
 </ul>
