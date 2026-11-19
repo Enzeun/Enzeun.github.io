@@ -76,6 +76,10 @@ figcaption{font-size:.86rem;color:var(--mute);margin-top:6px;line-height:1.5}
 .narrow{max-width:620px}
 
 /* 코드 */
+details.more{margin:0 0 20px;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:0 16px}
+details.more>summary{cursor:pointer;padding:10px 0;font-weight:700;font-size:.92rem;color:var(--accent)}
+details.more[open]{padding-bottom:4px}
+details.more ul{margin-top:0}
 details.code{margin:0 0 20px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
 details.code summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:.92rem}
 pre{margin:0;background:var(--code-bg);color:var(--code-ink);padding:14px 16px;border-radius:0 0 8px 8px;overflow-x:auto;font-size:.85rem;line-height:1.6}
