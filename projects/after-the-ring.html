@@ -4,9 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>After the Ring | 김현준 포트폴리오</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="../assets/detail.css">
 <script src="../assets/detail.js" defer></script>
 </head>
@@ -36,14 +34,14 @@
 </header>
 
 <section>
-<h2>1. 이 프로젝트로 보여 드리는 것</h2>
+<h2>1. 요약</h2>
 <div class="tablewrap"><table class="strengths">
-<thead><tr><th>강점</th><th>근거</th><th>결과</th></tr></thead>
+<thead><tr><th>항목</th><th>근거</th><th>결과</th></tr></thead>
 <tbody>
-<tr><td>고칠 것과 확장할 것을 구분한다</td><td>프레임워크 원본 수정은 Objective 완료 처리 1곳으로 한정하고 수정 위치에 <code>// [ENZEUN 추가]</code> 표시. 나머지는 이벤트를 구독하는 독립 컴포넌트</td><td>프레임워크를 업데이트할 때 충돌하는 지점이 한 곳뿐</td></tr>
-<tr><td>기믹을 코드 없이 조립하게 한다</td><td>런타임 이벤트 바인더 5종: 중복 바인딩 방지, 일회성 실행, 파괴 시 해제</td><td>문·아이템·조명·목표·암전을 인스펙터에서 연결해 연출 제작</td></tr>
-<tr><td>비동기 연출을 하나의 시퀀스로 다룬다</td><td>자막·암전·텔레포트를 UniTask로 연결, 코루틴 0개, 파괴 시 취소 토큰</td><td>입력 잠금과 해제까지 포함한 연출 흐름</td></tr>
-<tr><td>출시까지 완성한다</td><td>1인으로 기획부터 빌드, 7개 언어 현지화, 빌드 크기 분석 도구 제작</td><td>itch.io 출시</td></tr>
+<tr><td>프레임워크 원본 수정 최소화</td><td>프레임워크 원본 수정은 Objective 완료 처리 1곳으로 한정하고 수정 위치에 <code>// [ENZEUN 추가]</code> 표시. 나머지는 이벤트를 구독하는 독립 컴포넌트</td><td>프레임워크를 업데이트할 때 충돌하는 지점이 한 곳뿐</td></tr>
+<tr><td>인스펙터에서 기믹 조립</td><td>런타임 이벤트 바인더 5종: 중복 바인딩 방지, 일회성 실행, 파괴 시 해제</td><td>문·아이템·조명·목표·암전을 인스펙터에서 연결해 연출 제작</td></tr>
+<tr><td>UniTask 연출 시퀀스</td><td>자막·암전·텔레포트를 UniTask로 연결, 코루틴 0개, 파괴 시 취소 토큰</td><td>입력 잠금과 해제까지 포함한 연출 흐름</td></tr>
+<tr><td>1인 출시</td><td>1인으로 기획부터 빌드, 7개 언어 현지화, 빌드 크기 분석 도구 제작</td><td>itch.io 출시</td></tr>
 </tbody></table></div>
 </section>
 
@@ -76,7 +74,7 @@
 <tr><td><code>ObjectiveCompleteRuntimeBinder</code></td><td>Objective Complete</td></tr>
 <tr><td><code>EyeBlinkEventBinder</code></td><td>Eyes Close / Open</td></tr>
 </tbody></table>
-<details class="code"><summary>코드 — DynamicObjectEventBinder</summary>
+<details class="code"><summary>코드: DynamicObjectEventBinder</summary>
 <pre><code>public void BindOpen()
 {
     if (target == null || isBound)
