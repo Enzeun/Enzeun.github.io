@@ -31,7 +31,10 @@ img{max-width:100%;display:block}
 .contact dd{margin:0;white-space:nowrap}
 .ic{width:15px;height:15px;fill:currentColor;flex:none}
 .about h2{margin-top:0}
-.about p{margin:0 0 14px;max-width:62ch;font-size:1.06rem;line-height:1.75}
+.about p{margin:0 0 14px;max-width:62ch}
+.about .lead-in{font-weight:700;margin-bottom:10px}
+.about .pts{margin:0;padding-left:18px;max-width:62ch}
+.about .pts li{margin-bottom:4px}
 /* 경력 요약: About 아래 빈 공간을 채우면서, 서류 담당자가 경력 흐름을 한눈에 보게 함 */
 .tl-h{font-size:.95rem;margin:24px 0 8px}
 .tl{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
@@ -116,7 +119,10 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   .contact dd{overflow-wrap:normal;white-space:nowrap}
   .ic{width:10px;height:10px}
   .about h2{font-size:1.3rem;margin-bottom:6px}
-  .about p{max-width:none;margin-bottom:6px;font-size:1rem;line-height:1.5}
+  .about p{max-width:none;margin-bottom:6px}
+  .about .lead-in{margin-bottom:4px}
+  .about .pts{max-width:none}
+  .about .pts li{margin-bottom:1px}
   .tl-h{font-size:1.05rem;margin:10px 0 4px}
   .tl li{grid-template-columns:9.6em minmax(0,1fr);padding:2px 0;font-size:.92rem}
 
@@ -168,8 +174,15 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
   </div>
   <div class="about">
     <h2>About</h2>
-    <p>(주)브릴라에서 3년 10개월 동안 언리얼로 VR 게임과 메타버스를 만들었습니다. 게임 개발을 한 번도 해 본 적 없이 입사해, 언리얼을 혼자 공부하며 10개월 만에 첫 게임 'Ready Aim Fire'를 Steam에 출시했습니다. 멀티플레이는 그때 처음 만들어 봤는데, 원리를 이해하려고 작은 실험을 정말 많이 했습니다. 그 뒤로 주한 이스라엘 대사관 메타버스와 과학관 VR 체험물도 끝까지 만들어 납품했습니다.</p>
-    <p>올해부터는 Unity로 넘어와, 리자드 스무디와의 기업협약 프로젝트 'NoMorePotion'에서 기획과 데이터, 인벤토리·월드 오브젝트 동기화를 맡고 있습니다.</p>
+    <p class="lead-in">게임 개발 경험 없이 입사해 3년 10개월 동안 VR 게임과 메타버스를 출시·납품했고, 올해부터 Unity로 다시 게임을 만들고 있습니다.</p>
+    <ul class="pts">
+      <li>입사 후 언리얼을 독학해, 10개월 만에 VR 실시간 멀티플레이 게임 'Ready Aim Fire' Steam 출시</li>
+      <li>첫 멀티플레이를 작은 실험을 반복하며 직접 이해</li>
+      <li>한국어 교육 VR/AR 학습 세션 설계·개발</li>
+      <li>주한 이스라엘 대사관 메타버스 납품 (Windows · Android · iOS)</li>
+      <li>과학관 어린이 VR 체험물 납품</li>
+      <li>현재: 리자드 스무디 기업협약 'NoMorePotion'에서 기획, 데이터, 인벤토리·월드 오브젝트 동기화 담당</li>
+    </ul>
     <h3 class="tl-h">경력 요약</h3>
     <ol class="tl">
       <li><span>2026.11 ~</span>리자드 스무디 기업협약 프로젝트 (프리랜서) · NoMorePotion</li>
