@@ -46,6 +46,16 @@
 
 <section>
 <h2>2. 구조</h2>
+<h3>코어 루프</h3>
+<ul class="flow">
+<li><div class="box"><b>베이스 캠프</b><span>판매 · 부활 주사기 구매</span></div></li>
+<li><div class="box"><b>파밍</b><span>몬스터를 피해 아이템 수집</span></div></li>
+<li><div class="box"><b>판매</b><span>자금 확보 · 재정비</span></div></li>
+<li><div class="box"><b>감염자 발생</b><span>무작위 플레이어 감염</span></div></li>
+<li><div class="box"><b>반복 · 탈출</b><span>더 파밍하거나 탈출</span></div></li>
+<li><div class="box"><b>정산</b><span>생존·감염 상태로 정산 · 랭킹</span></div></li>
+</ul>
+<h3>시스템 흐름</h3>
 <ul class="flow">
 <li><div class="box"><b>FirebaseLinkManager</b><span>익명 인증 · 닉네임</span></div></li>
 <li><div class="box"><b>PhotonLinkManager</b><span>로비 · 방 · 대기실</span></div></li>
@@ -103,7 +113,7 @@ public void RPC_SyncGold(int syncedGold)
 <dl class="pdr">
 <dt>문제</dt><dd>클라이언트마다 씬 로딩 속도가 달라서, 자동 씬 동기화를 쓰면 먼저 로딩된 플레이어가 혼자 게임을 시작합니다.</dd>
 <dt>판단</dt><dd><code>AutomaticallySyncScene</code>을 끄고, 씬 활성화 시점을 마스터가 직접 결정합니다.</dd>
-<dt>결과</dt><dd>각 클라이언트는 로딩 진행률이 0.9에 도달하면 <code>SceneLoaded</code> 속성을 true로 올리고, 마스터가 전원 완료를 확인하면 RPC로 씬을 활성화합니다. 120초 안에 전원이 준비되지 않으면 타이틀로 돌아갑니다.</dd>
+<dt>결과</dt><dd>각 클라이언트는 로딩 진행률이 0.9에 도달하면 <code>SceneLoaded</code> 속성을 true로 올리고, 마스터가 전원 완료를 확인하면 RPC로 씬을 활성화합니다(<code>allowSceneActivation</code>). 대기는 UniTask와 CancellationToken으로 처리하고, 120초 안에 전원이 준비되지 않으면 타이틀로 돌아갑니다.</dd>
 </dl>
 <figure class="narrow"><img src="../assets/infectstella-loading.webp" alt="멀티플레이 로딩 후 게임 씬 진입" loading="lazy"><figcaption>전원 로딩 완료를 확인한 뒤 게임 씬에 진입</figcaption></figure>
 
@@ -125,6 +135,26 @@ public void RPC_SyncGold(int syncedGold)
 <li>색상·준비·씬 로딩 상태는 Player Custom Properties로 공유하고, 속성 변경 콜백을 이벤트로 UI에 연결했습니다.</li>
 <li><b>방 목록 차등 갱신</b>: 목록이 바뀔 때마다 UI를 전부 다시 만들지 않고, 기존 항목은 재사용·갱신하고 새 방만 추가하며 사라진 방만 제거합니다.</li>
 </ul>
+<p>Photon 콜백에서 받은 변경분은 먼저 캐시에 반영합니다. <code>RemovedFromList</code>로 사라진 방은 캐시에서 빠지므로, 다음 UI 갱신에서 해당 항목의 <code>refreshCount</code>가 갱신되지 않아 제거됩니다.</p>
+<details class="code"><summary>코드: 방 목록 캐시 갱신</summary>
+<pre><code>public override void OnRoomListUpdate(List&lt;RoomInfo&gt; roomList)
+{
+    foreach (var room in roomList)
+    {
+        // 사라진 방은 캐시에서 제거
+        if (room.RemovedFromList)
+        {
+            CachedRoomList.RemoveAll(x =&gt; x.Name == room.Name);
+            continue;
+        }
+        // 이미 있는 방이면 갱신, 없으면 추가
+        int index = CachedRoomList.FindIndex(x =&gt; x.Name == room.Name);
+        if (index != -1) CachedRoomList[index] = room;
+        else CachedRoomList.Add(room);
+    }
+    OnRoomListUpdated?.Invoke(CachedRoomList);
+}</code></pre>
+</details>
 <details class="code"><summary>코드: 방 목록 UI 차등 갱신</summary>
 <pre><code>refreshCount++;
 
@@ -171,7 +201,33 @@ for (int i = roomContents.Count - 1; i &gt;= 0; i--)
 <ul>
 <li>게임 진행을 8개 상태의 <code>MMStateMachine</code>으로 관리하고, 상태 전환은 마스터만 RPC로 전파합니다.</li>
 <li><b>감염</b>: 시작 3분 뒤 첫 시도, 이후 1분마다 20% 확률로 살아 있는 플레이어 중 한 명을 마스터가 선정합니다.</li>
+<li><b>플레이어 상태</b>: 각 <code>PlayerDataObserver</code>를 <code>ActorNumber</code> 키로 <code>GameManager</code>에 등록하고, 사망·부활 이벤트는 해제 후 구독해 중복 구독을 막습니다.</li>
 </ul>
+<details class="code"><summary>코드: 플레이어 상태 등록</summary>
+<pre><code>// PlayerDataObserver: 소유자의 ActorNumber로 등록
+public void InitializePlayerDataObserver()
+{
+    ownerPlayer = photonView.Owner;
+    GameManager.Instance.RegisterPlayerData(ownerPlayer.ActorNumber, this);
+}
+
+// GameManager
+public Dictionary&lt;int, PlayerDataObserver&gt; playerDataDict { get; private set; } = new();
+
+public void RegisterPlayerData(int actorNr, PlayerDataObserver playerDataObserver)
+{
+    if (playerDataDict.ContainsKey(actorNr))
+        return;
+
+    playerDataDict.Add(actorNr, playerDataObserver);
+
+    // 해제 후 구독: 중복 구독 방지
+    playerDataObserver.OnPlayerDie -= CheckAllPlayerDied;
+    playerDataObserver.OnPlayerRevive -= CheckAllPlayerDied;
+    playerDataObserver.OnPlayerDie += CheckAllPlayerDied;
+    playerDataObserver.OnPlayerRevive += CheckAllPlayerDied;
+}</code></pre>
+</details>
 <table>
 <thead><tr><th>결과</th><th>정산</th></tr></thead>
 <tbody>
@@ -198,7 +254,7 @@ for (int i = roomContents.Count - 1; i &gt;= 0; i--)
 <dl class="pdr">
 <dt>현상</dt><dd>게임 종료 후 타이틀 씬으로 돌아가면 <code>DontDestroyOnLoad</code> 싱글턴 매니저가 파괴됐습니다.</dd>
 <dt>원인</dt><dd>이미 살아 있는 매니저의 PhotonView와 타이틀 씬에 배치된 PhotonView의 ViewID가 중복됐습니다.</dd>
-<dt>해결</dt><dd>타이틀 진입 전 전용 초기화 씬에서 매니저를 생성하고, 이후 초기화 씬에 다시 들어가지 않도록 씬 흐름을 수정했습니다.</dd>
+<dt>해결</dt><dd>타이틀 진입 전 전용 초기화 씬에서 매니저를 생성하고, 이후 초기화 씬에 다시 들어가지 않도록 씬 흐름을 수정했습니다. 이후 전체 씬의 PhotonView ID를 재조정했습니다.</dd>
 <dt>교훈</dt><dd>씬을 넘나드는 네트워크 객체는 "어느 씬에서 한 번만 생성되는가"를 먼저 설계해야 합니다.</dd>
 </dl>
 </section>

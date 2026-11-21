@@ -54,6 +54,7 @@
 <li><div class="box"><b>Enemy Queue 실행</b><span>등록 순서대로</span></div></li>
 <li><div class="box"><b>결과 확인</b><span>계속 / 종료</span></div></li>
 </ul>
+<p>승패 판정은 라운드 끝에 한 번만 하지 않고, Queue에서 행동 하나를 실행할 때마다 합니다. 적이 남아 있으면 계속하고, 없으면 전투를 종료합니다.</p>
 <p>Player · Skill · Enemy 시스템은 <code>TurnManager</code>에서 만나고, 전투 상태와 결과는 Battle UI로 전달됩니다.</p>
 </section>
 
@@ -124,6 +125,7 @@ private void PlayNextSkill()
     StartCoroutine(PlayBeforeAttackRoutine());
 }</code></pre>
 </details>
+<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/9xxAzuLPrT8" title="Last Magician 전투 진행 시연" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 <div class="g2">
 <figure><img src="../assets/lastmagician-indicator.jpg" alt="스킬 대상 Indicator" loading="lazy"><figcaption>대상 선택 시 원기둥 Indicator로 표시</figcaption></figure>
 <figure><img src="../assets/lastmagician-cover.webp" alt="적 행동 아이콘" loading="lazy"><figcaption>체력바 위 아이콘으로 적의 다음 행동 공개</figcaption></figure>
@@ -153,16 +155,37 @@ private void PlayNextSkill()
 <dl class="pdr">
 <dt>현상</dt><dd>에디터에서는 정상인데, 빌드에서는 첫 씬 진입 시 UI가 표시되지 않고 진행이 멈췄습니다.</dd>
 <dt>원인</dt><dd>초기화 과정과 UI 출력 시점이 겹쳤습니다.</dd>
-<dt>해결</dt><dd>첫 화면을 검은 화면으로 유지 → 초기화 완료 → Fade In 순서로 고정했습니다.</dd>
+<dt>해결</dt><dd>첫 화면을 검은 화면으로 유지 → 초기화 완료 → Fade In 순서로 고정했습니다. <code>Start()</code>에서 코루틴을 시작해 대기(<code>waitOnefSec</code>) 후 <code>InitializeBattle()</code>을 호출하고, 초기화가 끝난 다음에 <code>FadeDarkImage(0.5f)</code>로 Fade In합니다.</dd>
 <dt>교훈</dt><dd>에디터와 빌드는 초기화 순서가 다를 수 있으므로, "화면을 보여 주는 시점"을 초기화 완료 뒤로 명시해야 합니다.</dd>
 </dl>
+<details class="code"><summary>코드: 초기화 후 Fade In</summary>
+<pre><code>private void Start()
+{
+    StartCoroutine(WaitForStartGame());
+}
+
+private IEnumerator WaitForStartGame()
+{
+    yield return waitOnefSec;
+
+    InitializeBattle();               // 전투 초기화
+    uIManager.FadeDarkImage(0.5f);    // 초기화 완료 후 Fade In
+
+    yield return waitHalfSec;
+}</code></pre>
+</details>
 </section>
 
 <section>
 <h2>5. 한계와 회고</h2>
 <p class="note">복잡한 구조를 만드는 것보다, 프로젝트의 규모와 제약에 맞는 적정 복잡도를 고르는 것이 중요하다는 걸 배웠습니다.</p>
 <ul>
-<li><b>TurnManager에 책임 집중</b>: 3명 · 5일 조건에서는 통합 속도에 유리했지만, 기능이 늘면 Player Turn, Enemy Turn, Skill 실행이 한 곳에 몰립니다.</li>
+<li><b>TurnManager에 책임 집중</b>: 3명 · 5일 조건에서는 통합 속도에 유리했지만, 기능이 늘면 Player Turn, Enemy Turn, Skill 실행이 한 곳에 몰립니다.
+<ul>
+<li>현재: <code>TurnManager</code>가 Battle Flow, Player Turn, Enemy Turn, Skill Execution을 모두 담당</li>
+<li>확장 시: <code>TurnManager</code>는 Battle Flow만 담당하고, 아래 세 컨트롤러로 분리
+<ul><li><code>PlayerTurnController</code> · <code>EnemyTurnController</code> · <code>SkillExecutionController</code></li></ul></li>
+</ul></li>
 <li><b>확장 계획</b>
 <ol>
 <li>턴 책임 분리: <code>PlayerTurnController</code> / <code>EnemyTurnController</code> / <code>SkillExecutionController</code></li>
