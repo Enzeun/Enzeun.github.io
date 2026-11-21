@@ -20,22 +20,24 @@ img{max-width:100%;display:block}
 .shot{width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
 
 /* 상단: 사진 + 이름 + 연락처 | About */
-.head{display:grid;grid-template-columns:280px minmax(0,1fr);gap:48px;padding-top:64px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
+/* 왼쪽 칸은 연락처 길이에 맞춰 늘어남(최소 260px). 고정 너비면 화면 배율이 클 때 이메일이 줄바꿈됨 */
+.head{display:grid;grid-template-columns:minmax(260px,max-content) minmax(0,1fr);gap:48px;padding-top:64px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
 .me{width:220px;height:270px;object-fit:cover;border-radius:4px}
 .name{font-size:2.3rem;font-weight:700;margin:18px 0 2px;letter-spacing:-.02em;line-height:1.2}
 .role{color:var(--mute);margin:0 0 14px}
 /* 라벨 칸 너비를 가장 긴 라벨(GitHub)에 맞추는 2열 그리드: 고정 너비를 쓰면 라벨과 값이 겹침 */
 .contact{display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:14px;row-gap:5px;margin:0;font-size:.92rem;align-items:center}
 .contact dt{display:flex;align-items:center;gap:7px;color:var(--mute)}
-.contact dd{margin:0;overflow-wrap:anywhere}
+.contact dd{margin:0;white-space:nowrap}
 .ic{width:15px;height:15px;fill:currentColor;flex:none}
 .about h2{margin-top:0}
-.about p{margin:0 0 14px;max-width:62ch}
+.about p{margin:0 0 14px;max-width:62ch;font-size:1.06rem;line-height:1.75}
 /* 경력 요약: About 아래 빈 공간을 채우면서, 서류 담당자가 경력 흐름을 한눈에 보게 함 */
-.tl-h{font-size:1rem;margin:26px 0 10px}
+.tl-h{font-size:.95rem;margin:24px 0 8px}
 .tl{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.tl li{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;padding:7px 0;margin:0;border-bottom:1px solid var(--line);font-size:.93rem}
-.tl span{color:var(--mute);font-variant-numeric:tabular-nums}
+/* 날짜 칸은 글자 크기(em)에 비례: px 고정이면 글씨가 커질 때 날짜가 두 줄로 꺾임 */
+.tl li{display:grid;grid-template-columns:9.6em minmax(0,1fr);gap:10px;padding:5px 0;margin:0;border-bottom:1px solid var(--line);font-size:.86rem}
+.tl span{color:var(--mute);font-variant-numeric:tabular-nums;white-space:nowrap}
 .about .pdf{margin-top:22px;font-size:.88rem;color:var(--mute)}
 .about .pdf button{font:inherit;background:none;border:0;padding:0;color:var(--link);text-decoration:underline;cursor:pointer}
 
@@ -93,7 +95,7 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   .me{width:160px;height:196px}
   .side div{grid-template-columns:1fr;gap:0}
 }
-@media (max-width:520px){.wrap{padding:0 16px}.gal{grid-template-columns:1fr}.name{font-size:1.9rem}.tl li{grid-template-columns:104px minmax(0,1fr);gap:8px;font-size:.88rem}}
+@media (max-width:520px){.wrap{padding:0 16px}.gal{grid-template-columns:1fr}.name{font-size:1.9rem}.tl li{grid-template-columns:9.2em minmax(0,1fr);gap:8px;font-size:.84rem}}
 
 @page{size:A4;margin:12mm}
 @media print{
@@ -106,7 +108,7 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   a{text-decoration:none}
 
   /* 상단 */
-  .head{grid-template-columns:205px minmax(0,1fr);gap:22px;padding-top:0;padding-bottom:10px}
+  .head{grid-template-columns:max-content minmax(0,1fr);gap:22px;padding-top:0;padding-bottom:10px}
   .me{width:110px;height:136px}
   .name{font-size:1.9rem;margin:8px 0 0}
   .role{margin-bottom:6px}
@@ -114,9 +116,9 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   .contact dd{overflow-wrap:normal;white-space:nowrap}
   .ic{width:10px;height:10px}
   .about h2{font-size:1.3rem;margin-bottom:6px}
-  .about p{max-width:none;margin-bottom:6px}
+  .about p{max-width:none;margin-bottom:6px;font-size:1rem;line-height:1.5}
   .tl-h{font-size:1.05rem;margin:10px 0 4px}
-  .tl li{grid-template-columns:110px minmax(0,1fr);padding:2px 0}
+  .tl li{grid-template-columns:9.6em minmax(0,1fr);padding:2px 0;font-size:.92rem}
 
   /* 본문 */
   section{padding:10px 0}
