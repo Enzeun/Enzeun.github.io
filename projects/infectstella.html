@@ -6,6 +6,8 @@
 <title>Infectstella | 김현준 포트폴리오</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="../assets/detail.css">
+<link rel="stylesheet" href="../assets/gallery.css">
+<script src="../assets/gallery.js" defer></script>
 <script src="../assets/detail.js" defer></script>
 </head>
 <body>
@@ -122,7 +124,7 @@ public void RPC_SyncGold(int syncedGold)
 <li>익명 인증 → 닉네임 로드·저장 → 랭킹 등록·조회까지 UniTask 비동기로 연결했습니다. 초기화 중에는 로딩 화면을 보여 줍니다.</li>
 <li>랭킹은 <code>OrderByChild("earnedGold").LimitToLast(n)</code>으로 상위 n개를 받아 내림차순으로 정렬하고, 등록은 마스터만 수행해 중복 등록을 막았습니다.</li>
 </ul>
-<div class="g2">
+<div class="media">
 <figure><img src="../assets/infectstella-init.gif" alt="Firebase 사용자 초기화" loading="lazy"><figcaption>Firebase 사용자 초기화</figcaption></figure>
 <figure><img src="../assets/infectstella-ranking.webp" alt="Firebase 랭킹 연동" loading="lazy"><figcaption>랭킹 확인</figcaption></figure>
 <figure><img src="../assets/infectstella-nickname.gif" alt="닉네임 변경" loading="lazy"><figcaption>닉네임 변경</figcaption></figure>
@@ -188,7 +190,7 @@ for (int i = roomContents.Count - 1; i &gt;= 0; i--)
     }
 }</code></pre>
 </details>
-<div class="g2">
+<div class="media">
 <figure><img src="../assets/infectstella-lobby.webp" alt="로비 방 목록 동기화" loading="lazy"><figcaption>방 목록 동기화</figcaption></figure>
 <figure><img src="../assets/infectstella-room.webp" alt="방 생성" loading="lazy"><figcaption>방 생성과 대기실 입장</figcaption></figure>
 <figure><img src="../assets/infectstella-master.gif" alt="자동 방장 변경" loading="lazy"><figcaption>방장이 나가면 자동으로 방장 변경</figcaption></figure>
@@ -236,13 +238,13 @@ public void RegisterPlayerData(int actorNr, PlayerDataObserver playerDataObserve
 <tr><td>감염자 처치 후 탈출</td><td>40% 보너스</td></tr>
 <tr><td>감염자 단독 생존</td><td>50% 보너스, 감염자만 랭킹 등록</td></tr>
 </tbody></table>
-<div class="g2">
+<div class="media">
 <figure><img src="../assets/infectstella-hud-a.jpg" alt="게임 정보창" loading="lazy"><figcaption>게임 상태에 따라 갱신되는 정보창</figcaption></figure>
 <figure><img src="../assets/infectstella-hud-b.jpg" alt="감염자 발생 후 정보창" loading="lazy"><figcaption>플레이어 사망·골드·감염자 발생 반영</figcaption></figure>
 </div>
 
 <h3>⑥ UI 시청각 피드백</h3>
-<div class="g2">
+<div class="media">
 <figure><img src="../assets/infectstella-button.gif" alt="버튼 피드백" loading="lazy"><figcaption>버튼 크기 변화와 흔들림, 효과음</figcaption></figure>
 <figure><img src="../assets/infectstella-chat.gif" alt="채팅 피드백" loading="lazy"><figcaption>채팅 입력 흔들림과 수신음, 자동 스크롤</figcaption></figure>
 </div>

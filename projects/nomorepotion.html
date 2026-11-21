@@ -6,6 +6,8 @@
 <title>NoMorePotion | 김현준 포트폴리오</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="../assets/detail.css">
+<link rel="stylesheet" href="../assets/gallery.css">
+<script src="../assets/gallery.js" defer></script>
 <script src="../assets/detail.js" defer></script>
 </head>
 <body>
@@ -56,7 +58,7 @@
 
 <h3>① 기획자용 데이터 툴</h3>
 <p>Odin 에디터 창에서 SO를 만들고 고치며, 기획 시트(CSV)를 읽어 SO를 한꺼번에 생성합니다. 효과 문장("불 속성 대미지 250", "수분 + 5%")은 규칙 기반으로 효과 모듈로 바뀌고, 276개 중 실패 0건이었습니다.</p>
-<div class="g2">
+<div class="media">
 <figure><img src="../assets/nomorepotion-tool-view.png" alt="아이템 데이터 관리자: 포션 SO 조회" loading="lazy"><figcaption><b>SO 조회</b>: 시트의 효과 문장이 모듈 4개(체력 −700 · 수분 −20% · 포만감 +10% · 정신력 −10%)로 변환된 결과입니다.</figcaption></figure>
 <figure><img src="../assets/nomorepotion-tool-create.png" alt="아이템 데이터 관리자: 포션 SO 생성" loading="lazy"><figcaption><b>SO 생성</b>: 종류 6개를 고르면 ID가 자동으로 채워지고 <code>{ID}.asset</code>으로 저장됩니다.</figcaption></figure>
 </div>
@@ -110,8 +112,10 @@
 <li><div class="box"><b>마스터 검증</b><span>확정값 생성</span></div></li>
 <li><div class="box"><b>전원 적용</b><span>사본 버전 +1</span></div></li>
 </ul>
-<figure><img src="../assets/nomorepotion-inventory.gif" alt="공용 인벤토리 동기화" loading="lazy"><figcaption>공용 인벤 (P1 화면, 오른쪽 아래 P2): 두 사람이 동시에 옮겨도 공용 개수(31 → 28)는 양쪽에서 같이 바뀌고, 개인 칸은 각자 유지됩니다.</figcaption></figure>
-<figure><img src="../assets/nomorepotion-corpse.gif" alt="시체 상자 동기화" loading="lazy"><figcaption>시체 상자 (3명 방): P3가 쓰러진 자리의 상자를 P1·P2가 열면 같은 내용이 보이고, 꺼내기도 모두에게 반영됩니다.</figcaption></figure>
+<div class="media">
+<figure><img src="../assets/nomorepotion-inventory.gif" data-thumb="../assets/nomorepotion-inventory-thumb.jpg" alt="공용 인벤토리 동기화" loading="lazy"><figcaption>공용 인벤 (P1 화면, 오른쪽 아래 P2): 두 사람이 동시에 옮겨도 공용 개수(31 → 28)는 양쪽에서 같이 바뀌고, 개인 칸은 각자 유지됩니다.</figcaption></figure>
+<figure><img src="../assets/nomorepotion-corpse.gif" data-thumb="../assets/nomorepotion-corpse-thumb.jpg" alt="시체 상자 동기화" loading="lazy"><figcaption>시체 상자 (3명 방): P3가 쓰러진 자리의 상자를 P1·P2가 열면 같은 내용이 보이고, 꺼내기도 모두에게 반영됩니다.</figcaption></figure>
+</div>
 <details class="more"><summary>자세히</summary>
 <ul>
 <li>보관 장소는 모두 <code>ContainerRef</code>(종류, 번호, 칸)로 가리키고, 적용은 "변경 목록(절대값)" 한 번</li>
@@ -145,8 +149,8 @@
 
 <h3>⑦ 월드 오브젝트 자동 배치</h3>
 <p>방장은 <b>시드 하나</b>만 공유하고, 각 기기가 같은 규칙으로 배치를 계산합니다. 네트워크 번호도 계산 순서로 정해 모든 기기에서 같은 번호가 같은 오브젝트를 가리킵니다. 소진된 오브젝트는 일정 시간 뒤 리스폰되며, 타이머도 방장 한 곳에만 둡니다.</p>
-<figure><img src="../assets/nomorepotion-spawn-sync.gif" alt="자동 배치 오브젝트 소진 동기화" loading="lazy"><figcaption>P2(오른쪽 아래)가 자동 배치된 선인장을 깨고 재료를 주우면, P1의 공용 인벤에 그 재료가 바로 들어옵니다. 두 화면에 같은 오브젝트가 같은 자리에 있습니다.</figcaption></figure>
-<div class="g2">
+<div class="media">
+<figure><img src="../assets/nomorepotion-spawn-sync.gif" data-thumb="../assets/nomorepotion-spawn-sync-thumb.jpg" alt="자동 배치 오브젝트 소진 동기화" loading="lazy"><figcaption>P2(오른쪽 아래)가 자동 배치된 선인장을 깨고 재료를 주우면, P1의 공용 인벤에 그 재료가 바로 들어옵니다. 두 화면에 같은 오브젝트가 같은 자리에 있습니다.</figcaption></figure>
 <figure><img src="../assets/nomorepotion-spawn-preview-a.png" alt="배치 미리보기 시드 12345" loading="lazy"><figcaption>에디터 미리보기 · 시드 12345</figcaption></figure>
 <figure><img src="../assets/nomorepotion-spawn-preview-b.png" alt="배치 미리보기 시드 12123" loading="lazy"><figcaption>에디터 미리보기 · 시드 12123</figcaption></figure>
 </div>
@@ -164,11 +168,11 @@
 <section id="perf">
 <h2>4. 성능 측정: 조합 키의 박싱 제거</h2>
 <p>구조체 키에 <code>IEquatable&lt;T&gt;</code>가 없어 조회 1회당 약 3건의 힙 할당이 생겼습니다. 구현 후 10만 회 조회 기준 <b>300,059건 / 6.9MB → 할당 원인 목록에서 사라짐</b> (Profiler, Unity 6000.3 에디터).</p>
-<div class="g2">
+<div class="media">
 <figure><img src="../assets/nomorepotion-profiler-before.png" alt="수정 전 Profiler" loading="lazy"><figcaption>수정 전: 조회 10만 회, 할당 300,059건 / 6.9MB</figcaption></figure>
-<figure><img src="../assets/nomorepotion-profiler-after-100k.png" alt="수정 후 Profiler 10만 회" loading="lazy"><figcaption>수정 후: 조회 10만 회</figcaption></figure>
-</div>
+<figure><img src="../assets/nomorepotion-profiler-after-100k.png" alt="수정 후 Profiler 10만 회" loading="lazy"><figcaption>수정 후: 조회 10만 회. PotionRecipe Lookup이 할당 원인 목록에서 사라지고, 프레임 할당은 16건 / 3.0KB입니다.</figcaption></figure>
 <figure><img src="../assets/nomorepotion-profiler-after-1m.png" alt="수정 후 Profiler 100만 회" loading="lazy"><figcaption>수정 후: 조회 100만 회. PotionRecipe Lookup은 35.2ms로 10만 회(3.5ms)의 약 10배지만, 프레임 할당은 47건 / 7.2KB로 조회 횟수에 비례해 늘지 않습니다.</figcaption></figure>
+</div>
 <details class="code"><summary>코드: 수정 전 / 수정 후</summary>
 <pre><code>// 수정 전: 비교 방법을 제공하지 않아 Dictionary 가 기본 비교(박싱 가능)를 사용
 public struct PotionRecipeSet

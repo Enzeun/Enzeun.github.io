@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>김현준 포트폴리오</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/gallery.css">
+<script src="assets/gallery.js" defer></script>
 <style>
 :root{--bg:#fff;--ink:#1b1b1b;--mute:#6b6b6b;--line:#e4e4e4;--soft:#f6f6f4;--link:#1d4f91;color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--ink:#ececec;--mute:#9b9b9b;--line:#2c2c2c;--soft:#1c1c1c;--link:#8fb3e6;color-scheme:dark}}
@@ -145,17 +147,13 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
   <p class="co-desc">디벨로켓 과정 연계 기업협약. 4인 팀으로 생존 협동 게임 NoMorePotion 개발</p>
 
   <article class="proj feature">
-    <div>
-      <a href="projects/nomorepotion.html"><img class="shot" src="assets/nomorepotion-cover.jpg" alt="NoMorePotion 타이틀" loading="lazy"></a>
-      <div class="thumbs">
-        <figure><img class="shot" src="assets/nomorepotion-spawn-sync.gif" alt="자동 배치 오브젝트 동기화" loading="lazy"><figcaption>같은 시드로 같은 배치</figcaption></figure>
-        <figure><img class="shot" src="assets/nomorepotion-explosion.gif" alt="포션 폭발 동기화" loading="lazy"><figcaption>포션 폭발 동기화</figcaption></figure>
-        <figure><img class="shot" src="assets/nomorepotion-inventory.gif" alt="공용 인벤토리 동기화" loading="lazy"><figcaption>공용 인벤토리</figcaption></figure>
-      </div>
-      <details><summary>GIF 2개 더 보기</summary><div class="gal">
-        <figure><img class="shot" src="assets/nomorepotion-corpse.gif" alt="시체 상자 동기화" loading="lazy"><figcaption>시체 상자를 여럿이 열어도 같은 내용</figcaption></figure>
-        <figure><img class="shot" src="assets/nomorepotion-environment.gif" alt="환경 지역" loading="lazy"><figcaption>지역마다 체온·정신력 변화</figcaption></figure>
-      </div></details>
+    <div class="media" aria-label="NoMorePotion 화면">
+      <figure><img src="assets/nomorepotion-cover.jpg" alt="NoMorePotion 타이틀"><figcaption>NoMorePotion 타이틀</figcaption></figure>
+      <figure><img src="assets/nomorepotion-spawn-sync.gif" data-thumb="assets/nomorepotion-spawn-sync-thumb.jpg" alt="자동 배치 오브젝트 동기화" loading="lazy"><figcaption>시드 하나로 모든 기기가 같은 배치를 계산하고, 다른 플레이어가 깬 오브젝트의 재료가 내 인벤토리에 반영됩니다.</figcaption></figure>
+      <figure><img src="assets/nomorepotion-explosion.gif" data-thumb="assets/nomorepotion-explosion-thumb.jpg" alt="포션 폭발 동기화" loading="lazy"><figcaption>다른 플레이어가 던진 포션. 대미지는 맞은 기기에서 한 번만 적용합니다.</figcaption></figure>
+      <figure><img src="assets/nomorepotion-inventory.gif" data-thumb="assets/nomorepotion-inventory-thumb.jpg" alt="공용 인벤토리 동기화" loading="lazy"><figcaption>두 사람이 동시에 옮겨도 공용 인벤토리 개수가 양쪽에서 같습니다.</figcaption></figure>
+      <figure><img src="assets/nomorepotion-corpse.gif" data-thumb="assets/nomorepotion-corpse-thumb.jpg" alt="시체 상자 동기화" loading="lazy"><figcaption>쓰러진 자리의 시체 상자를 여러 명이 열어도 같은 내용이 보입니다.</figcaption></figure>
+      <figure><img src="assets/nomorepotion-environment.gif" data-thumb="assets/nomorepotion-environment-thumb.jpg" alt="환경 지역" loading="lazy"><figcaption>환경 지역(Hot · Cold · Dim · Dark)에 따라 체온과 정신력이 변합니다.</figcaption></figure>
     </div>
     <div>
       <div class="t"><h3>NoMorePotion</h3><small>11.12 CBT 제출 · 개발 중</small></div>
@@ -176,13 +174,11 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
   <p class="co-desc">Unreal Engine(Blueprint)으로 VR 게임, 메타버스, 체험형 콘텐츠 개발</p>
 
   <div class="job">
-    <div>
-      <a href="https://store.steampowered.com/app/1330290/READY_AIM_FIRE/" target="_blank" rel="noopener"><img class="shot" src="assets/raf-ss1.jpg" alt="Ready Aim Fire 탱크 조종석 시점" loading="lazy"></a>
-      <div class="thumbs">
-        <img class="shot" src="assets/raf-capsule.jpg" alt="Ready Aim Fire 대표 이미지" loading="lazy">
-        <img class="shot" src="assets/raf-ss2.jpg" alt="Ready Aim Fire 플레이 화면" loading="lazy">
-        <img class="shot" src="assets/raf-ss3.jpg" alt="Ready Aim Fire 플레이 화면" loading="lazy">
-      </div>
+    <div class="media" aria-label="Ready Aim Fire 화면">
+      <figure><img src="assets/raf-ss1.jpg" alt="Ready Aim Fire 탱크 조종석 시점"><figcaption>탱크 조종석 시점. 양손 VR 컨트롤러로 이동과 포탑 조준을 합니다.</figcaption></figure>
+      <figure><img src="assets/raf-capsule.jpg" alt="Ready Aim Fire 대표 이미지" loading="lazy"><figcaption>Steam 대표 이미지</figcaption></figure>
+      <figure><img src="assets/raf-ss2.jpg" alt="Ready Aim Fire 플레이 화면" loading="lazy"><figcaption>플레이 화면 (Steam 스크린샷)</figcaption></figure>
+      <figure><img src="assets/raf-ss3.jpg" alt="Ready Aim Fire 플레이 화면" loading="lazy"><figcaption>플레이 화면 (Steam 스크린샷)</figcaption></figure>
     </div>
     <div>
       <div class="t"><h3>Ready Aim Fire</h3><small>2020.03 ~ 2020.09 · PC VR · Steam 출시 (2020.09.14)</small></div>
@@ -240,15 +236,13 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
   <p class="co-desc">Unity 6 / C#으로 개인·팀 프로젝트를 진행하고 Git으로 협업했습니다. 아래는 과정 중에 만든 프로젝트입니다. (위의 기업협약 프로젝트도 이 과정에서 연계됐습니다)</p>
 
   <article class="proj">
-    <div>
-      <a href="projects/infectstella.html"><img class="shot" src="assets/infectstella-cover.webp" alt="Infectstella 타이틀" loading="lazy"></a>
-      <details><summary>화면 5개</summary><div class="gal">
-        <figure><img class="shot" src="assets/infectstella-lobby.webp" alt="로비" loading="lazy"><figcaption>로비 방 목록</figcaption></figure>
-        <figure><img class="shot" src="assets/infectstella-room.webp" alt="방 생성" loading="lazy"><figcaption>방 생성, 대기실</figcaption></figure>
-        <figure><img class="shot" src="assets/infectstella-loading.webp" alt="로딩" loading="lazy"><figcaption>전원 로딩 후 입장</figcaption></figure>
-        <figure><img class="shot" src="assets/infectstella-ranking.webp" alt="랭킹" loading="lazy"><figcaption>Firebase 랭킹</figcaption></figure>
-        <figure><img class="shot" src="assets/infectstella-hud.webp" alt="정보창" loading="lazy"><figcaption>게임 정보창</figcaption></figure>
-      </div></details>
+    <div class="media" aria-label="Infectstella 화면">
+      <figure><img src="assets/infectstella-cover.webp" alt="Infectstella 타이틀"><figcaption>Infectstella 타이틀</figcaption></figure>
+      <figure><img src="assets/infectstella-lobby.webp" alt="로비" loading="lazy"><figcaption>로비 방 목록. 바뀐 방만 갱신하고 기존 항목은 재사용합니다.</figcaption></figure>
+      <figure><img src="assets/infectstella-room.webp" alt="방 생성" loading="lazy"><figcaption>방 생성과 대기실 입장</figcaption></figure>
+      <figure><img src="assets/infectstella-loading.webp" alt="로딩" loading="lazy"><figcaption>전원 로딩이 끝난 뒤 게임 씬으로 진입</figcaption></figure>
+      <figure><img src="assets/infectstella-ranking.webp" alt="랭킹" loading="lazy"><figcaption>Firebase 랭킹</figcaption></figure>
+      <figure><img src="assets/infectstella-hud.webp" alt="정보창" loading="lazy"><figcaption>사망, 골드, 감염자 수에 따라 갱신되는 정보창</figcaption></figure>
     </div>
     <div>
       <h3>Infectstella</h3>
@@ -265,15 +259,13 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
   </article>
 
   <article class="proj">
-    <div>
-      <a href="projects/after-the-ring.html"><img class="shot" src="assets/afterthering-cover.webp" alt="After the Ring 플레이 화면" loading="lazy"></a>
-      <details><summary>화면 5개</summary><div class="gal">
-        <figure><img class="shot" src="assets/afterthering-subtitle.webp" alt="자막" loading="lazy"><figcaption>자막 시퀀스</figcaption></figure>
-        <figure><img class="shot" src="assets/afterthering-lockdoor.webp" alt="문 잠금" loading="lazy"><figcaption>이벤트 후 문 잠김</figcaption></figure>
-        <figure><img class="shot" src="assets/afterthering-binding.webp" alt="암전" loading="lazy"><figcaption>이벤트 바인딩으로 암전</figcaption></figure>
-        <figure><img class="shot" src="assets/afterthering-npc.webp" alt="NPC 시선" loading="lazy"><figcaption>NPC 시선 처리</figcaption></figure>
-        <figure><img class="shot" src="assets/afterthering-objective.webp" alt="목표 중복" loading="lazy"><figcaption>목표 중복 완료 버그 재현</figcaption></figure>
-      </div></details>
+    <div class="media" aria-label="After the Ring 화면">
+      <figure><img src="assets/afterthering-cover.webp" alt="After the Ring 플레이 화면"><figcaption>After the Ring 플레이 화면</figcaption></figure>
+      <figure><img src="assets/afterthering-subtitle.webp" alt="자막" loading="lazy"><figcaption>UniTask로 순서대로 재생하는 자막과 입력 잠금</figcaption></figure>
+      <figure><img src="assets/afterthering-lockdoor.webp" alt="문 잠금" loading="lazy"><figcaption>이벤트가 끝나면 문을 닫고 잠그는 기믹</figcaption></figure>
+      <figure><img src="assets/afterthering-binding.webp" alt="암전" loading="lazy"><figcaption>이벤트 바인더로 묶은 암전과 텔레포트</figcaption></figure>
+      <figure><img src="assets/afterthering-npc.webp" alt="NPC 시선" loading="lazy"><figcaption>시야각에 들어오면 플레이어를 바라보는 NPC</figcaption></figure>
+      <figure><img src="assets/afterthering-objective.webp" alt="목표 중복" loading="lazy"><figcaption>트러블슈팅: 목표 달성이 중복으로 발생하던 버그 재현</figcaption></figure>
     </div>
     <div>
       <h3>After the Ring</h3>
