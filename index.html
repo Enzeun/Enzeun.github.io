@@ -24,12 +24,18 @@ img{max-width:100%;display:block}
 .me{width:220px;height:270px;object-fit:cover;border-radius:4px}
 .name{font-size:2.3rem;font-weight:700;margin:18px 0 2px;letter-spacing:-.02em;line-height:1.2}
 .role{color:var(--mute);margin:0 0 14px}
-.contact{list-style:none;margin:0;padding:0;font-size:.92rem}
-.contact li{display:flex;align-items:center;padding:3px 0;white-space:nowrap}
-.contact span{display:inline-flex;align-items:center;gap:7px;flex:none;width:78px;color:var(--mute)}
+/* 라벨 칸 너비를 가장 긴 라벨(GitHub)에 맞추는 2열 그리드: 고정 너비를 쓰면 라벨과 값이 겹침 */
+.contact{display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:14px;row-gap:5px;margin:0;font-size:.92rem;align-items:center}
+.contact dt{display:flex;align-items:center;gap:7px;color:var(--mute)}
+.contact dd{margin:0;overflow-wrap:anywhere}
 .ic{width:15px;height:15px;fill:currentColor;flex:none}
 .about h2{margin-top:0}
 .about p{margin:0 0 14px;max-width:62ch}
+/* 경력 요약: About 아래 빈 공간을 채우면서, 서류 담당자가 경력 흐름을 한눈에 보게 함 */
+.tl-h{font-size:1rem;margin:26px 0 10px}
+.tl{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.tl li{display:grid;grid-template-columns:140px minmax(0,1fr);gap:12px;padding:7px 0;margin:0;border-bottom:1px solid var(--line);font-size:.93rem}
+.tl span{color:var(--mute);font-variant-numeric:tabular-nums}
 .about .pdf{margin-top:22px;font-size:.88rem;color:var(--mute)}
 .about .pdf button{font:inherit;background:none;border:0;padding:0;color:var(--link);text-decoration:underline;cursor:pointer}
 
@@ -87,21 +93,48 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   .me{width:160px;height:196px}
   .side div{grid-template-columns:1fr;gap:0}
 }
-@media (max-width:520px){.wrap{padding:0 16px}.gal{grid-template-columns:1fr}.name{font-size:1.9rem}}
+@media (max-width:520px){.wrap{padding:0 16px}.gal{grid-template-columns:1fr}.name{font-size:1.9rem}.tl li{grid-template-columns:104px minmax(0,1fr);gap:8px;font-size:.88rem}}
 
-@page{size:A4;margin:13mm}
+@page{size:A4;margin:12mm}
 @media print{
-  :root{--bg:#fff;--ink:#111;--mute:#555;--line:#ccc;--soft:#f3f3f3;--link:#1d4f91}
-  body{font-size:9.5pt;line-height:1.5}
+  /* 다크 모드 규칙(:root:not(...))보다 우선하도록 같은 선택자로 덮어씀. 안 그러면 다크 모드에서 흰 글씨로 인쇄됨 */
+  :root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#fff;--ink:#111;--mute:#555;--line:#d0d0d0;--soft:#f3f3f3;--link:#1d4f91;color-scheme:light}
+  /* rem 단위(제목·링크·박스 등)도 같이 줄도록 html 기준 크기를 낮춤. body 만 줄이면 rem 은 16px 그대로라 글씨 크기가 들쭉날쭉해짐 */
+  html{font-size:11.5px;background:#fff}
+  body{background:#fff;font-size:1rem;line-height:1.45;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .wrap{max-width:none;padding:0}
-  .head{grid-template-columns:210px 1fr;gap:20px;padding-top:0;padding-bottom:12px}
-  .contact span{width:62px}
-  .me{width:120px;height:148px}
-  .name{font-size:18pt;margin-top:8px}
-  section{padding:12px 0}
-  h2{margin-bottom:8px;break-after:avoid}
-  .job,.proj{grid-template-columns:200px 1fr;gap:16px;padding:10px 0;break-inside:avoid}
+  a{text-decoration:none}
+
+  /* 상단 */
+  .head{grid-template-columns:205px minmax(0,1fr);gap:22px;padding-top:0;padding-bottom:10px}
+  .me{width:110px;height:136px}
+  .name{font-size:1.9rem;margin:8px 0 0}
+  .role{margin-bottom:6px}
+  .contact{font-size:.9rem;column-gap:8px;row-gap:1px}
+  .contact dd{overflow-wrap:normal;white-space:nowrap}
+  .ic{width:10px;height:10px}
+  .about h2{font-size:1.3rem;margin-bottom:6px}
+  .about p{max-width:none;margin-bottom:6px}
+  .tl-h{font-size:1.05rem;margin:10px 0 4px}
+  .tl li{grid-template-columns:110px minmax(0,1fr);padding:2px 0}
+
+  /* 본문 */
+  section{padding:10px 0}
+  h2{font-size:1.3rem;margin-bottom:8px;break-after:avoid}
+  .feature .t h3{font-size:1.2rem}
+  .co{break-after:avoid}
+  .co-desc{margin-bottom:8px}
+  .job,.proj,.feature{grid-template-columns:150px minmax(0,1fr);gap:14px;padding:8px 0;break-inside:avoid}
+  .note{padding:5px 8px;margin-top:6px}
+  .links{margin-top:4px}
+  ul{margin-top:4px}
+  .side div{grid-template-columns:150px minmax(0,1fr);gap:2px 14px}
+  .vid::after{display:none}
+  /* 갤러리는 현재 장면만 작게, 설명은 생략 */
+  .media .stage{border-radius:2px}
+  .media .cap{display:none}
   .noprint,details{display:none!important}
+  footer{padding:8px 0 0}
 }
 </style>
 <style id="page-orient"></style>
@@ -122,19 +155,27 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
     <img class="me" src="assets/profile.webp" alt="김현준 사진">
     <p class="name">김현준</p>
     <p class="role">게임 클라이언트 프로그래머</p>
-    <ul class="contact">
-      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zm2 2v.5l7 4.5 7-4.5V7zm14 2.9-7 4.5-7-4.5V17h14z"/></svg>이메일</span>khuynjun123@naver.com</li>
-      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z"/></svg>전화</span>010-7375-9122</li>
-      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>주소</span>경기도 용인시 기흥구</li>
-      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9zM5 13.2v4L12 21l7-3.8v-4L12 17z"/></svg>학력</span>한양대학교 기계공학부 졸업</li>
-      <li><span><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</span><a href="https://github.com/Enzeun" target="_blank" rel="noopener">github.com/Enzeun</a></li>
-      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>유튜브</span><a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener">언즌</a></li>
-    </ul>
+    <dl class="contact">
+      <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zm2 2v.5l7 4.5 7-4.5V7zm14 2.9-7 4.5-7-4.5V17h14z"/></svg>이메일</dt><dd>khuynjun123@naver.com</dd>
+      <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z"/></svg>전화</dt><dd>010-7375-9122</dd>
+      <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>주소</dt><dd>경기도 용인시 기흥구</dd>
+      <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9zM5 13.2v4L12 21l7-3.8v-4L12 17z"/></svg>학력</dt><dd>한양대학교 기계공학부 졸업</dd>
+      <dt><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</dt><dd><a href="https://github.com/Enzeun" target="_blank" rel="noopener">github.com/Enzeun</a></dd>
+      <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>유튜브</dt><dd><a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener">언즌</a></dd>
+    </dl>
   </div>
   <div class="about">
     <h2>About</h2>
-    <p>(주)브릴라에서 3년 10개월 동안 Unreal Engine으로 VR 게임과 메타버스를 만들었습니다. 입사 때는 게임 개발에 문외한이었지만, 언리얼을 독학하여 입사 10개월 만에 VR 실시간 멀티플레이 슈팅 게임 'Ready Aim Fire'를 Steam에 출시했습니다. 이후 주한 이스라엘 대사관 메타버스, 과학관 VR 체험물을 출시·납품까지 맡았습니다.</p>
-    <p>올해 Unity로 전환했고, 지금은 리자드 스무디와의 기업협약 프로젝트 'NoMorePotion'에서 기획과 데이터·인벤토리·월드 오브젝트 동기화를 맡고 있습니다.</p>
+    <p>(주)브릴라에서 3년 10개월 동안 언리얼로 VR 게임과 메타버스를 만들었습니다. 게임 개발을 한 번도 해 본 적 없이 입사해, 언리얼을 혼자 공부하며 10개월 만에 첫 게임 'Ready Aim Fire'를 Steam에 출시했습니다. 멀티플레이는 그때 처음 만들어 봤는데, 원리를 이해하려고 작은 실험을 정말 많이 했습니다. 그 뒤로 주한 이스라엘 대사관 메타버스와 과학관 VR 체험물도 끝까지 만들어 납품했습니다.</p>
+    <p>올해부터는 Unity로 넘어와, 리자드 스무디와의 기업협약 프로젝트 'NoMorePotion'에서 기획과 데이터, 인벤토리·월드 오브젝트 동기화를 맡고 있습니다.</p>
+    <h3 class="tl-h">경력 요약</h3>
+    <ol class="tl">
+      <li><span>2026.11 ~</span>리자드 스무디 기업협약 프로젝트 (프리랜서) · NoMorePotion</li>
+      <li><span>2026.06 ~ 2026.11</span>디벨로켓 Unity 게임 개발 과정</li>
+      <li><span>2024.05 ~ 2026.05</span>코카콜라음료 하남지점 영업팀</li>
+      <li><span>2023.08 ~</span>유튜브 공포게임 채널 '언즌' 운영</li>
+      <li><span>2019.11 ~ 2023.08</span>(주)브릴라 프로그래밍팀 · 언리얼 VR 게임·메타버스 (3년 10개월)</li>
+    </ol>
     <p class="pdf noprint">PDF로 저장: <button type="button" onclick="savePdf(false)">세로</button> / <button type="button" onclick="savePdf(true)">가로</button></p>
   </div>
 </header>
