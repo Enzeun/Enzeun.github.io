@@ -3,145 +3,108 @@
 <head>
 <meta charset="utf-8">
 <meta name="format-detection" content="email=no,telephone=no">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>김현준 | Unity Client Programmer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>김현준 포트폴리오</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
-:root{--bg:#f5f6f8;--surface:#fff;--ink:#12161d;--mute:#586070;--line:#d9dde4;--accent:#2250e6;--accent-ink:#fff;--tag:#e8ecf5;color-scheme:light;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1117;--surface:#161b24;--ink:#eef1f6;--mute:#9aa3b2;--line:#2a3140;--accent:#7a9bff;--accent-ink:#0e1117;--tag:#1e2533;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0e1117;--surface:#161b24;--ink:#eef1f6;--mute:#9aa3b2;--line:#2a3140;--accent:#7a9bff;--accent-ink:#0e1117;--tag:#1e2533;color-scheme:dark}
+:root{--bg:#fff;--ink:#1b1b1b;--mute:#6b6b6b;--line:#e4e4e4;--soft:#f6f6f4;--link:#1d4f91;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141414;--ink:#ececec;--mute:#9b9b9b;--line:#2c2c2c;--soft:#1c1c1c;--link:#8fb3e6;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141414;--ink:#ececec;--mute:#9b9b9b;--line:#2c2c2c;--soft:#1c1c1c;--link:#8fb3e6;color-scheme:dark}
 *{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Noto Sans CJK KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7;font-size:16px}
-.wrap{max-width:960px;margin:0 auto;padding:0 24px}
-a{color:inherit}
-a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-header.hero{padding:88px 0 56px}
-.hero h1{font-size:clamp(1.5rem,6.4vw,3.8rem);line-height:1.2;font-weight:900;letter-spacing:-.03em;margin:0 0 20px;max-width:100%;word-break:keep-all;overflow-wrap:break-word;text-wrap:balance}
-.hero .who{font-size:1.05rem;color:var(--mute);margin:0 0 32px}
-.hero .who b{color:var(--ink)}
-.stats{display:flex;flex-wrap:wrap;gap:12px 40px;margin:0 0 32px;padding:0;list-style:none}
-.stats li{font-size:.95rem;color:var(--mute)}
-.stats strong{display:block;font-size:1.9rem;line-height:1.2;color:var(--ink);font-weight:700}
-.stats .src{display:block;margin-top:4px;font-size:.8rem;color:var(--accent);font-weight:500}
-.hero h1{font-size:clamp(1.5rem,4.6vw,3rem)}
-.intro{display:grid;grid-template-columns:150px minmax(0,1fr);gap:32px;align-items:center;margin:0 0 28px}
-.intro .me{width:150px;height:190px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
-.intro .who{margin:0}
-@media (max-width:760px){.intro{grid-template-columns:1fr;gap:16px}.intro .me{width:110px;height:140px}}
-@media print{.intro{grid-template-columns:90px 1fr;gap:16px;margin-bottom:10px}.intro .me{width:90px;height:115px}}
-.about-text p{margin:0 0 12px;max-width:72ch;font-size:1.02rem}
-h3.sub{font-size:1.05rem;margin:32px 0 16px}
-.hero .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 32px}
-.hero .stats strong{font-size:1.6rem;word-break:keep-all}
-@media (max-width:900px){.hero .stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:480px){.hero .stats{grid-template-columns:1fr}}
-@media print{.hero .stats{grid-template-columns:repeat(3,1fr);gap:8px 16px}.hero .stats strong{font-size:13pt}}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px;padding:0;list-style:none}
-.tags li{background:var(--tag);padding:3px 12px;border-radius:99px;font-size:.88rem}
-.btn{display:inline-block;background:var(--accent);color:var(--accent-ink);padding:11px 22px;border-radius:8px;text-decoration:none;font-weight:700}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);margin-left:8px}
-section{padding:56px 0;border-top:1px solid var(--line)}
-h2{font-size:1.5rem;margin:0 0 32px;letter-spacing:-.01em}
-.proj{display:grid;grid-template-columns:200px 1fr;gap:12px 40px;padding:0 0 48px}
-.proj+.proj{padding-top:48px;border-top:1px dashed var(--line)}
-.rail{font-size:.9rem;color:var(--mute)}
-.rail b{display:block;color:var(--ink);font-size:1rem}
-.proj h3{font-size:1.4rem;margin:0 0 6px;letter-spacing:-.01em}
-.proj .sum{margin:0 0 16px;color:var(--mute)}
-.proj ul{margin:0 0 16px;padding-left:20px}
-.proj li{margin-bottom:4px}
-.case{background:var(--surface);border-left:4px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:0 0 16px;font-size:.95rem}
-.case b{display:block;margin-bottom:2px}
-.links{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.95rem}
-.links a{color:var(--accent);font-weight:500}
-.prev{display:grid;gap:18px}
-.prev div{display:grid;grid-template-columns:200px 1fr;gap:8px 40px}
-.prev b{display:block}
-.prev span{color:var(--mute);font-size:.95rem}
-.prev p{margin:0}
-footer{padding:40px 0 64px;border-top:1px solid var(--line);color:var(--mute);font-size:.9rem}
-@media (max-width:700px){.proj,.prev div{grid-template-columns:1fr}.btn.ghost{margin:8px 0 0}header.hero{padding-top:56px}}
-.shot{width:100%;height:auto;display:block;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
-.hero-img{margin:0 0 20px}
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:0 0 20px}
-.gallery figure{margin:0}
-figcaption{font-size:.88rem;color:var(--mute);margin-top:6px;line-height:1.5}
-@media (max-width:700px){.gallery{grid-template-columns:1fr}}
-.cover{display:block;position:relative;margin:0 0 20px;text-decoration:none}
-.cover .shot{transition:filter .15s}
-.cover:hover .shot,.cover:focus-visible .shot{filter:brightness(.9)}
-.badge{position:absolute;right:12px;bottom:12px;background:var(--accent);color:var(--accent-ink);padding:5px 14px;border-radius:99px;font-size:.85rem;font-weight:700}
-details.demo{margin:0 0 20px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
-details.demo summary{cursor:pointer;padding:12px 16px;font-weight:700}
-details.demo .gallery{padding:0 16px 16px;margin:0}
-details.demo .hero-img{padding:0 16px 16px;margin:0}
-.mail{margin-left:16px;color:var(--mute);font-size:.95rem;user-select:text;display:inline-block}
-button.btn{font:inherit;border:0;cursor:pointer}
-button.btn.ghost{border:1px solid var(--line)}
-.play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(0,0,0,.62);box-shadow:0 0 0 3px rgba(255,255,255,.85)}
-.play::after{content:"";position:absolute;left:30px;top:22px;border-left:26px solid #fff;border-top:16px solid transparent;border-bottom:16px solid transparent}
-.po{display:none}@media print{.po{display:inline!important}}@page{size:A4;margin:14mm}
-@media print{
-:root{--bg:#fff;--surface:#fff;--ink:#111;--mute:#444;--line:#cfcfcf;--accent:#1a3fbf;--tag:#eee;padding:0}
-body{font-size:10pt;line-height:1.5}
-.wrap{max-width:none;padding:0}
-header.hero{padding:0 0 8px}
-.hero h1{font-size:22pt;margin-bottom:8px;max-width:none}
-.noprint,.badge,details.demo{display:none!important}
-section{padding:14px 0}
-h2{margin-bottom:10px;break-after:avoid}
-.proj{grid-template-columns:150px 1fr;gap:10px 22px;padding:0 0 12px;break-inside:avoid}.proj ul{margin-bottom:8px}.case{margin-bottom:8px;padding:8px 14px}
-.proj+.proj{padding-top:12px}
-.cover .shot{max-height:150px;width:auto;max-width:100%}.cover{margin-bottom:10px}.stats{margin-bottom:14px}.tags{margin-bottom:10px}
-.shot{border-radius:4px}
-.case{break-inside:avoid}
-.btn.ghost{margin-left:0;padding:4px 0;border:0;color:var(--accent)}
-.links a{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:15.5px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}
+a{color:var(--link)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+img{max-width:100%;display:block}
+.shot{width:100%;height:auto;border:1px solid var(--line);border-radius:4px}
+
+/* 상단: 사진 + 이름 + 연락처 | About */
+.head{display:grid;grid-template-columns:280px minmax(0,1fr);gap:48px;padding-top:64px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
+.me{width:220px;height:270px;object-fit:cover;border-radius:4px}
+.name{font-size:2.3rem;font-weight:700;margin:18px 0 2px;letter-spacing:-.02em;line-height:1.2}
+.role{color:var(--mute);margin:0 0 14px}
+.contact{list-style:none;margin:0;padding:0;font-size:.92rem}
+.contact li{display:flex;align-items:center;padding:3px 0;white-space:nowrap}
+.contact span{display:inline-flex;align-items:center;gap:7px;flex:none;width:78px;color:var(--mute)}
+.ic{width:15px;height:15px;fill:currentColor;flex:none}
+.about h2{margin-top:0}
+.about p{margin:0 0 14px;max-width:62ch}
+.about .pdf{margin-top:22px;font-size:.88rem;color:var(--mute)}
+.about .pdf button{font:inherit;background:none;border:0;padding:0;color:var(--link);text-decoration:underline;cursor:pointer}
+
+/* 섹션 */
+section{padding:44px 0;border-bottom:1px solid var(--line)}
+h2{font-size:1.3rem;margin:0 0 24px;font-weight:700}
+h3{font-size:1.12rem;margin:0;font-weight:700}
+.co{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline;margin:0 0 4px}
+.co .when{color:var(--mute);font-size:.92rem}
+.co-desc{color:var(--mute);margin:0 0 28px}
+ul{margin:8px 0 0;padding-left:18px}
+li{margin-bottom:3px}
+
+/* 경력 안의 프로젝트 */
+.job{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:32px;padding:28px 0;border-top:1px solid var(--line)}
+.job:first-of-type{border-top:0;padding-top:0}
+.job .t{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline;margin:0 0 6px}
+.job .t small{color:var(--mute);font-size:.9rem}
+.job p{margin:0}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.links{margin-top:10px;font-size:.92rem}
+.links a{margin-right:14px}
+.vid{position:relative;display:block}
+.vid::after{content:"▶ 영상";position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.7);color:#fff;font-size:.8rem;padding:2px 8px;border-radius:3px}
+.side{display:grid;gap:14px;margin-top:8px}
+.side div{display:grid;grid-template-columns:220px 1fr;gap:4px 24px}
+.side b{display:block}
+.side span{color:var(--mute);font-size:.9rem}
+.side p{margin:0}
+
+/* Unity 프로젝트 */
+.proj{display:grid;grid-template-columns:420px minmax(0,1fr);gap:32px;padding:32px 0;border-top:1px solid var(--line)}
+.proj:first-of-type{border-top:0;padding-top:0}
+.proj .meta{color:var(--mute);font-size:.9rem;margin:2px 0 10px}
+.proj p{margin:0 0 8px}
+.note{background:var(--soft);padding:10px 14px;margin:12px 0 0;font-size:.93rem;border-radius:4px}
+details{margin-top:10px;font-size:.92rem}
+summary{cursor:pointer;color:var(--mute)}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.gal figure{margin:0}
+figcaption{font-size:.82rem;color:var(--mute);margin-top:4px;line-height:1.45}
+
+.feature{grid-template-columns:minmax(0,5fr) minmax(0,6fr);padding-bottom:8px}
+.feature .t{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline;margin:0 0 2px}
+.feature .t h3{font-size:1.35rem}
+.feature .t small{color:var(--mute);font-size:.9rem}
+.thumbs figure{margin:0}
+.thumbs figcaption{font-size:.78rem}
+.co-desc + .proj,.co-desc + .job{border-top:0;padding-top:0}
+footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
+
+@media (max-width:860px){
+  .head,.job,.proj{grid-template-columns:1fr;gap:20px}
+  .head{padding-top:40px}
+  .me{width:160px;height:196px}
+  .side div{grid-template-columns:1fr;gap:0}
 }
-body{word-break:keep-all;overflow-wrap:break-word}
-.badge{top:10px;bottom:auto;right:10px}
-.proj2{padding:0 0 44px}
-.proj2+.proj2{padding-top:44px;border-top:1px dashed var(--line)}
-.top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:28px;align-items:start;margin-bottom:20px}
-.top .cover{margin:0}
-.info h3{font-size:1.5rem;margin:0 0 6px;letter-spacing:-.01em}
-.meta{display:flex;flex-wrap:wrap;gap:2px 14px;margin:0 0 12px;padding:0;list-style:none;font-size:.86rem;color:var(--mute)}
-.lead{margin:0 0 12px;font-weight:500}
-.feat{margin:0 0 16px;padding-left:20px}.feat li{margin-bottom:4px}
-.proj2 .sum{margin:0 0 16px;color:var(--mute)}
-@media (max-width:760px){.top{grid-template-columns:1fr;gap:16px}}
-@media print{.top{grid-template-columns:190px 1fr;gap:16px;margin-bottom:8px}.proj2{break-inside:avoid;padding:0 0 12px}.proj2+.proj2{padding-top:12px}.info h3{font-size:14pt}.meta{font-size:8.5pt;margin-bottom:6px}.lead{margin-bottom:6px}.feat{margin-bottom:6px}.proj2 .sum{margin-bottom:8px}}
-.exp{font-size:.95rem;color:var(--mute);margin:-16px 0 28px}
-.ico{width:16px;height:16px;fill:currentColor;flex:none}
-.links a,.btn.ghost{display:inline-flex;align-items:center;gap:6px}
-.btn.ghost{vertical-align:middle}
-@media print{.exp{margin:-6px 0 10px;font-size:9pt}}
-.wrap{max-width:1240px;padding:0 48px}
-header.hero{padding:64px 0 44px}
-.hero .exp{margin:0 0 28px}
-.hero .who{margin-bottom:12px}
-section{padding:48px 0}
-h2{margin-bottom:28px}
-.top{grid-template-columns:440px minmax(0,1fr);gap:40px}
-.lcol details.demo{margin:14px 0 0}
-.lcol details.demo .gallery{grid-template-columns:1fr}
-.info .case{margin:0 0 14px}
-.about{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;align-items:start}
-.me{width:200px;height:200px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
-.about p{margin:0 0 14px;max-width:64ch;font-size:1.02rem}
-.two{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:56px}
-.two .edu .prev div{grid-template-columns:1fr;gap:2px}
-@media (max-width:900px){.top,.about,.two{grid-template-columns:1fr}.two{gap:32px}.about{gap:20px}}
-@media (max-width:760px){.wrap{padding:0 20px}}
-@media print{.wrap{max-width:none;padding:0}header.hero{padding:0 0 8px}section{padding:14px 0}h2{margin-bottom:10px}.top{grid-template-columns:190px 1fr;gap:16px}.about{grid-template-columns:90px 1fr;gap:16px}.me{width:90px;height:90px}.about p{font-size:9.5pt;margin-bottom:6px;max-width:none}.two{grid-template-columns:7fr 4fr;gap:20px}.hero .exp{margin:-6px 0 10px}}
+@media (max-width:520px){.wrap{padding:0 16px}.gal{grid-template-columns:1fr}.name{font-size:1.9rem}}
+
+@page{size:A4;margin:13mm}
+@media print{
+  :root{--bg:#fff;--ink:#111;--mute:#555;--line:#ccc;--soft:#f3f3f3;--link:#1d4f91}
+  body{font-size:9.5pt;line-height:1.5}
+  .wrap{max-width:none;padding:0}
+  .head{grid-template-columns:210px 1fr;gap:20px;padding-top:0;padding-bottom:12px}
+  .contact span{width:62px}
+  .me{width:120px;height:148px}
+  .name{font-size:18pt;margin-top:8px}
+  section{padding:12px 0}
+  h2{margin-bottom:8px;break-after:avoid}
+  .job,.proj{grid-template-columns:200px 1fr;gap:16px;padding:10px 0;break-inside:avoid}
+  .noprint,details{display:none!important}
+}
 </style>
 <style id="page-orient"></style>
 <script>
-// PDF 저장 방향: 가로를 고르면 인쇄하는 동안만 용지를 가로로 바꾸고, 인쇄 창이 닫히면 기본(세로)으로 되돌립니다.
+// PDF 저장: 가로를 고르면 인쇄하는 동안만 용지를 가로로 바꿨다가, 인쇄 창이 닫히면 세로로 되돌립니다.
 function savePdf(landscape){
   var s=document.getElementById('page-orient');
   if(s) s.textContent = landscape ? '@page{size:A4 landscape;margin:12mm}' : '';
@@ -151,52 +114,200 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
 </script>
 </head>
 <body>
-<header class="hero"><div class="wrap">
-<div class="intro"><img class="me" src="assets/profile.webp" alt="김현준 증명사진"><div>
-<h1>맡은 자리를 지키고, 끝까지 완성하는<br>Unity 클라이언트 프로그래머</h1>
-<p class="who"><b>김현준</b> · 한 회사에서 3년 10개월, 개발을 떠나 있던 동안에도 한 자리에서 2년을 일했습니다. 문제는 숨기지 않고 원인과 함께 공유하고, 임시 해결은 임시라고 적어 둡니다.</p>
-</div></div>
-<ul class="stats">
-<li><strong>3년 10개월</strong>첫 회사에서 게임 개발 실무<br>출시·납품 3건을 끝까지<span class="src">(주)브릴라 · 2019.11~2023.08</span></li>
-<li><strong>영상 410+</strong>2023년 8월부터 꾸준히 올린<br>공포게임 영상 (구독자 3,500+)<span class="src">유튜브 '언즌' · 2023.08~</span></li>
-<li><strong>300,059 → 0</strong>추측 대신 Profiler로 측정하고<br>제거한 힙 할당<span class="src">NoMorePotion · CBT 제출</span></li>
-</ul>
-<ul class="tags"><li>Unity 6</li><li>C#</li><li>ScriptableObject · Odin</li><li>Unity Profiler</li><li>Photon PUN 2</li><li>Firebase</li><li>UniTask</li><li>Unreal Engine (Blueprint)</li></ul>
-<a class="btn ghost" href="https://github.com/Enzeun" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><button type="button" class="btn ghost noprint" onclick="savePdf(false)">PDF 저장 (세로)</button><button type="button" class="btn ghost noprint" onclick="savePdf(true)">PDF 저장 (가로)</button><span class="mail">khuynjun123@naver.com</span>
-</div></header>
+
+<header class="wrap head">
+  <div>
+    <img class="me" src="assets/profile.webp" alt="김현준 사진">
+    <p class="name">김현준</p>
+    <p class="role">게임 클라이언트 프로그래머</p>
+    <ul class="contact">
+      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3zm2 2v.5l7 4.5 7-4.5V7zm14 2.9-7 4.5-7-4.5V17h14z"/></svg>이메일</span>khuynjun123@naver.com</li>
+      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z"/></svg>전화</span>010-7375-9122</li>
+      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>주소</span>경기도 용인시 기흥구</li>
+      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9zM5 13.2v4L12 21l7-3.8v-4L12 17z"/></svg>학력</span>한양대학교 기계공학부 졸업</li>
+      <li><span><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</span><a href="https://github.com/Enzeun" target="_blank" rel="noopener">github.com/Enzeun</a></li>
+      <li><span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>유튜브</span><a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener">언즌</a></li>
+    </ul>
+  </div>
+  <div class="about">
+    <h2>About</h2>
+    <p>(주)브릴라에서 3년 10개월 동안 Unreal Engine으로 VR 게임과 메타버스를 만들었습니다. 입사 때는 게임 개발에 문외한이었지만, 언리얼을 독학하여 입사 10개월 만에 VR 실시간 멀티플레이 슈팅 게임 'Ready Aim Fire'를 Steam에 출시했습니다. 이후 주한 이스라엘 대사관 메타버스, 과학관 VR 체험물을 출시·납품까지 맡았습니다.</p>
+    <p>올해 Unity로 전환했고, 지금은 리자드 스무디와의 기업협약 프로젝트 'NoMorePotion'에서 기획과 데이터·인벤토리·월드 오브젝트 동기화를 맡고 있습니다.</p>
+    <p class="pdf noprint">PDF로 저장: <button type="button" onclick="savePdf(false)">세로</button> / <button type="button" onclick="savePdf(true)">가로</button></p>
+  </div>
+</header>
 
 <main>
-<section id="projects"><div class="wrap"><h2>Unity Projects</h2><article class="proj2"><div class="top"><div class="lcol"><a class="cover" href="projects/nomorepotion.html" aria-label="NoMorePotion 상세 문서 열기"><img class="shot" src="assets/nomorepotion-cover.jpg" alt="NoMorePotion 타이틀 아트" loading="lazy"><span class="badge">CBT 제출 · 상세 보기</span></a><details class="demo"><summary>기능 데모 5개 보기 (자동 배치 · 포션 폭발 · 인벤토리 · 시체 상자 · 환경 지역)</summary><div class="gallery"><figure><img class="shot" src="assets/nomorepotion-spawn-sync.gif" alt="자동 배치 오브젝트 소진 동기화" loading="lazy"><figcaption>시드 하나로 같은 배치, 다른 플레이어가 깬 오브젝트의 재료가 내 인벤에 반영</figcaption></figure><figure><img class="shot" src="assets/nomorepotion-explosion.gif" alt="포션 폭발 동기화" loading="lazy"><figcaption>다른 플레이어가 던진 포션, 대미지는 맞은 기기가 한 번만 적용</figcaption></figure><figure><img class="shot" src="assets/nomorepotion-inventory.gif" alt="공용 인벤토리 동기화" loading="lazy"><figcaption>두 사람이 동시에 옮겨도 공용 인벤 개수가 양쪽에서 일치</figcaption></figure><figure><img class="shot" src="assets/nomorepotion-corpse.gif" alt="시체 상자 동기화" loading="lazy"><figcaption>쓰러진 자리의 시체 상자를 여러 명이 열어도 같은 내용</figcaption></figure></div><div class="hero-img" style="max-width:520px"><img class="shot" src="assets/nomorepotion-environment.gif" alt="환경 지역 발판 시연" loading="lazy"><figcaption>환경 지역 4분할: Hot · Cold · Dim · Dark에 따라 체온과 정신력이 변함</figcaption></div></details></div><div class="info"><h3>NoMorePotion</h3><ul class="meta"><li>기업협약 팀 프로젝트 · 4인</li><li>2026.11.02~ 개발 중 · CBT 제출 (11.12)</li><li>Unity 6 · ScriptableObject · Odin · Photon PUN 2</li></ul><p class="lead">기획 시트가 그대로 게임 데이터가 되고, 새 효과는 코드 수정 없이 데이터로 추가되는 구조를 만들어 CBT 빌드까지 제출했습니다.</p><ul class="feat"><li>기획 시트 → SO 일괄 생성 (포션 효과 276개, 해석 실패 0건)</li><li>모듈 조립식 버프/디버프, 생존 상태 4종과 자동 연결</li><li>마스터 검증 기반 팀 인벤토리·바닥 재료 동기화 (에디터 시뮬레이션 72개 + PUN 오프라인 40개 시험, CBT 싱글 빌드에 같은 코드로 포함)</li><li>포션 폭발 동기화: "상태의 주인이 적용" 원칙으로 범위를 나눠 온라인 2클라이언트에서 중복 대미지 없이 확인</li><li>월드 오브젝트 자동 배치: 방장 시드 하나로 모든 기기가 같은 배치를 계산 (위치 메시지 없이 30개, 온라인 2클라이언트에서 일치 확인)</li></ul><p class="sum"><b style="color:var(--ink)">담당</b> 데이터 · 아이템 · 생존 상태 · 버프/디버프 · 인벤토리 동기화</p><div class="case"><b>Measurement</b>조합 조회 키의 박싱을 Profiler로 측정 → 조회 10만 회의 할당 300,059건 제거</div><div class="links"><a href="projects/nomorepotion.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h10l5 5v15H5zM7 4v16h11V8h-4V4zM9 11h7v1.5H9zm0 3h7v1.5H9z"/></svg><b>상세 문서</b></a></div></div></div></article><article class="proj2"><div class="top"><div class="lcol"><a class="cover" href="projects/infectstella.html" aria-label="Infectstella 상세 문서 열기"><img class="shot" src="assets/infectstella-cover.webp" alt="Infectstella 타이틀 아트" loading="lazy"><span class="badge">상세 보기</span></a><details class="demo"><summary>기능 데모 5개 보기 (로비 · 로딩 · 랭킹 · 정보창)</summary><div class="gallery"><figure><img class="shot" src="assets/infectstella-lobby.webp" alt="로비 방 목록 동기화" loading="lazy"><figcaption>방 목록 변경을 기존 항목 재사용 방식으로 갱신</figcaption></figure><figure><img class="shot" src="assets/infectstella-room.webp" alt="방 생성" loading="lazy"><figcaption>방 생성과 대기실 입장</figcaption></figure><figure><img class="shot" src="assets/infectstella-loading.webp" alt="로딩 후 게임 씬 진입" loading="lazy"><figcaption>전원 로딩 완료 확인 후 게임 씬 진입</figcaption></figure><figure><img class="shot" src="assets/infectstella-ranking.webp" alt="Firebase 랭킹 확인" loading="lazy"><figcaption>Firebase 랭킹 데이터 연동</figcaption></figure></div><div class="hero-img" style="max-width:520px"><img class="shot" src="assets/infectstella-hud.webp" alt="게임 정보창" loading="lazy"><figcaption>게임 상태(사망, 골드, 감염자)에 따라 갱신되는 정보창</figcaption></div></details></div><div class="info"><h3>Infectstella</h3><ul class="meta"><li>네트워크 팀 프로젝트 · 3인</li><li>2주 (2026.10.12~10.23)</li><li>Unity 6 · Photon PUN 2 · Firebase · UniTask</li></ul><p class="lead">접속부터 게임 진입까지, 클라이언트 진행 흐름 전 구간을 맡았습니다.</p><ul class="feat"><li>Firebase 익명 인증 · 닉네임 · 랭킹</li><li>Photon 로비 · 방 · 대기실 · 채팅, 전원 로딩 확인 후 진입하는 비동기 씬 전환 (UniTask)</li><li>FSM 기반 게임 진행 · 감염자 선정 · 골드 정산</li></ul><p class="sum"><b style="color:var(--ink)">담당</b> 로비 · 게임 진행 · UI · 서버 백엔드(Firebase) · 시스템 통합 </p><div class="case"><b>Troubleshooting</b>PhotonView ViewID 중복으로 매니저가 파괴되던 문제 → 초기화 전용 씬과 ID 재조정으로 해결</div><div class="links"><a href="projects/infectstella.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h10l5 5v15H5zM7 4v16h11V8h-4V4zM9 11h7v1.5H9zm0 3h7v1.5H9z"/></svg><b>상세 문서</b></a><a href="https://enzeun.itch.io/infectstella" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6h10a5 5 0 015 5v3a3 3 0 01-5.2 2l-1.6-2H8.8l-1.6 2A3 3 0 012 14v-3a5 5 0 015-5zm1 3v1.5H6.5V12H8v1.5h1.5V12H11v-1.5H9.5V9zm7.5 1.2a1 1 0 100 2 1 1 0 000-2zm2.2 1.6a1 1 0 100 2 1 1 0 000-2z"/></svg>itch.io에서 플레이</a><a href="https://github.com/Enzeun/Infectstellar_NetworkTeamProject" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></div></div></div></article><article class="proj2"><div class="top"><div class="lcol"><a class="cover" href="projects/after-the-ring.html" aria-label="After the Ring 상세 문서 열기"><img class="shot" src="assets/afterthering-cover.webp" alt="After the Ring 플레이 화면" loading="lazy"><span class="badge">상세 보기</span></a><details class="demo"><summary>기능 데모 5개 보기 (Subtitle · 문 잠금 · 이벤트 바인딩 · NPC 시선)</summary><div class="gallery"><figure><img class="shot" src="assets/afterthering-objective.webp" alt="Objective 중복 완료 문제" loading="lazy"><figcaption>문제 재현: 목표 달성이 중복 발생</figcaption></figure><figure><img class="shot" src="assets/afterthering-subtitle.webp" alt="Subtitle System" loading="lazy"><figcaption>UniTask 기반 자막 시퀀스와 Input 제어</figcaption></figure><figure><img class="shot" src="assets/afterthering-lockdoor.webp" alt="LockDoorAfterEvent" loading="lazy"><figcaption>이벤트 후 문을 닫고 잠그는 기믹</figcaption></figure><figure><img class="shot" src="assets/afterthering-binding.webp" alt="Runtime Event Binding" loading="lazy"><figcaption>런타임 이벤트 바인딩을 이용한 암전 전환</figcaption></figure><figure><img class="shot" src="assets/afterthering-npc.webp" alt="NPC LookAt" loading="lazy"><figcaption>시야각 기반 NPC 시선 전환</figcaption></figure></div></details></div><div class="info"><h3>After the Ring</h3><ul class="meta"><li>개인 프로젝트 · 1인</li><li>약 3주 (2026.08.19~09.10) · 기획부터 출시, 7개 국어 현지화까지</li><li>Unity 6 · UHFPS · UniTask · DOTween · Odin</li></ul><p class="lead">UHFPS 원본 수정은 Objective 완료 처리 한 곳으로 최소화하고, 나머지 기능은 독립 C# 컴포넌트로 확장한 공포 게임. 조회수 260+ / 다운로드 50+.</p><ul class="feat"><li>Runtime Event Binder (리스너 등록·해제, 중복 방지)</li><li>UniTask Subtitle System · Eye Blink 암전 · Teleport</li><li>NPC 시야각 기반 LookAt 제어</li></ul><div class="case"><b>Troubleshooting</b>공유 Input 상태 충돌 → 실행 시점 분리로 해결 (이후 Priority State Machine 개선 계획)</div><div class="links"><a href="projects/after-the-ring.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h10l5 5v15H5zM7 4v16h11V8h-4V4zM9 11h7v1.5H9zm0 3h7v1.5H9z"/></svg><b>상세 문서</b></a><a href="https://youtu.be/2PpvqcETudA" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>트레일러</a><a href="https://enzeun.itch.io/after-the-ring" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6h10a5 5 0 015 5v3a3 3 0 01-5.2 2l-1.6-2H8.8l-1.6 2A3 3 0 012 14v-3a5 5 0 015-5zm1 3v1.5H6.5V12H8v1.5h1.5V12H11v-1.5H9.5V9zm7.5 1.2a1 1 0 100 2 1 1 0 000-2zm2.2 1.6a1 1 0 100 2 1 1 0 000-2z"/></svg>itch.io에서 플레이</a><a href="https://github.com/Enzeun/Project_HorrorGame_First" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></div></div></div></article><article class="proj2"><div class="top"><div class="lcol"><a class="cover" href="projects/last-magician.html" aria-label="Last Magician 상세 문서 열기"><img class="shot" src="assets/lastmagician-cover.webp" alt="적 행동 아이콘" loading="lazy"><span class="badge">상세 보기</span></a></div><div class="info"><h3>Last Magician</h3><ul class="meta"><li>팀 프로젝트 · 3인 (팀장)</li><li>5일 (2026.08.03~08.07)</li><li>Unity 6 · C#</li></ul><p class="lead">적이 먼저 행동을 예약하고, 플레이어가 대응을 계획한 뒤 실행하는 턴제 전투 루프를 완성했습니다.</p><ul class="feat"><li>Turn State Machine으로 전투 흐름 설계</li><li>Skill Queue / Enemy Queue로 행동 순서와 실행 순서를 일치</li><li>팀장: Player · Skill · Enemy 통합, Git 협업 규칙·커밋 컨벤션 문서화</li></ul><div class="case"><b>Retrospective</b>TurnManager에 책임이 집중 → 확장 시 Turn · Skill 책임 분리 계획</div><div class="links"><a href="projects/last-magician.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 2h10l5 5v15H5zM7 4v16h11V8h-4V4zM9 11h7v1.5H9zm0 3h7v1.5H9z"/></svg><b>상세 문서</b></a><a href="https://youtu.be/2JqrTg7JXtc" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>소개 영상</a><a href="https://youtu.be/9xxAzuLPrT8" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>전투 진행 시연</a><a href="https://github.com/Enzeun/DEVELROCKET_TeamProject" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a></div></div></div></article></div></section>
+<section><div class="wrap">
+  <h2>경력</h2>
 
-<section><div class="wrap"><h2>About</h2><div class="about-text">
-<p>게임 스타트업에서 3년 10개월간 VR·메타버스 프로젝트를 출시와 납품까지 맡았습니다. 개발을 떠나 있던 동안에는 코카콜라음료 영업팀에서 2년간 일하며 생활을 책임졌고, 공포게임 유튜브 채널을 운영하며 플레이어가 무엇에 반응하는지 지켜봤습니다.</p>
-<p>문제를 발견하면 원인과 함께 공유하고, 임시 해결은 임시라고 적어 둡니다. 코드는 외우기보다 "왜?"를 먼저 묻고, AI 리뷰는 원리를 이해한 뒤에만 반영합니다.</p>
-</div></div></section><section><div class="wrap two"><div class="expc">
-<h2>Experience</h2>
-<p style="margin:0 0 24px;color:var(--mute)">(주)브릴라 · 프로그래밍팀 · 2019.11~2023.08 · Unreal Engine(Blueprint) 기반 VR 게임·콘텐츠 개발</p>
-<div class="prev">
-<div><p><b>Ready Aim Fire</b><span>2020.03~09 · Steam 출시</span></p><p>PC VR 탱크 슈팅. 조작계, PVP/PVE, 적 AI 구현. 시스템 기획 포함. <a href="https://store.steampowered.com/app/1330290/READY_AIM_FIRE/" target="_blank" rel="noopener" style="color:var(--accent)">Steam 페이지</a></p></div>
-<div><p><b>한국어 교육 VR/AR</b><span>2020.09~2021.11</span></p><p>실감형 학습 세션 시스템 설계·개발. 프로젝트는 중단되었습니다.</p></div>
-<div><p><b>Israel in Korea Metaverse</b><span>2021.12~2022.10 · 대사관 외주</span></p><p>Windows/Android/iOS, Dedicated Server 세션, 음성 채팅, Agora 화면 공유, 관리자 기능.</p></div>
-<div><p><b>VR Painting</b><span>2023.01~03 · 과학 체험관 납품</span></p><p>VR 3D 드로잉과 어린이용 Grab·UI 상호작용.</p></div>
-</div>
-<p style="margin:24px 0 0"><a class="btn ghost" style="margin:0 8px 0 0" href="https://app.notion.com/p/414372a69eaa81e1beb7d7ad5213970a" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M4 3h13l3 3v15H4zM8 8h1.6l3.8 5V8H15v8h-1.6L9.6 11v5H8z"/></svg>상세 문서 (Notion)</a><a class="btn ghost" style="margin:0 8px 0 0" href="https://store.steampowered.com/app/1330290/READY_AIM_FIRE/" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l1 5a3 3 0 01-5 2 3 3 0 01-5 0 3 3 0 01-5 0 3 3 0 01-5-2zM4 13h16v8H4z"/></svg>Steam 스토어</a><a class="btn ghost" style="margin:0" href="https://youtu.be/xygY920VEc8" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/></svg>Ready Aim Fire 티저</a></p>
-<h3 class="sub">기타 경력</h3>
-<div class="prev">
-<div><p><b>코카콜라음료 하남지점</b><span>2024.05~2026.05 · 영업팀</span></p><p>음료 배송 담당으로 2년간 근무했습니다.</p></div>
-<div><p><b>공포게임 유튜브 채널 '언즌'</b><span>2023.08~ · 구독자 3,500+ · 영상 410+ (2026.11 기준)</span></p><p>공포게임 실황과 스토리 플레이. 플레이어가 긴장하고 지루해하는 지점을 직접 관찰했습니다. <a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener" style="color:var(--accent)">채널 보기</a></p></div>
-</div>
-</div><div class="edu">
-<h2>Education</h2>
-<div class="prev">
-<div><p><b>디벨로켓 Unity 게임 개발 과정</b><span>2026.06~ 진행 중</span></p><p>Unity 6 / C# 기반 개인·팀 프로젝트, Git 협업.</p></div>
-<div><p><b>한양대학교 기계공학부</b><span>2012.03~2018.08 졸업</span></p><p></p></div>
-</div>
-</div></div></section>
+  <div class="co"><h3>리자드 스무디 · 기업협약 프로젝트 (프리랜서)</h3><span class="when">2026.11 ~ 진행 중</span></div>
+  <p class="co-desc">디벨로켓 과정 연계 기업협약. 4인 팀으로 생존 협동 게임 NoMorePotion 개발</p>
 
+  <article class="proj feature">
+    <div>
+      <a href="projects/nomorepotion.html"><img class="shot" src="assets/nomorepotion-cover.jpg" alt="NoMorePotion 타이틀" loading="lazy"></a>
+      <div class="thumbs">
+        <figure><img class="shot" src="assets/nomorepotion-spawn-sync.gif" alt="자동 배치 오브젝트 동기화" loading="lazy"><figcaption>같은 시드로 같은 배치</figcaption></figure>
+        <figure><img class="shot" src="assets/nomorepotion-explosion.gif" alt="포션 폭발 동기화" loading="lazy"><figcaption>포션 폭발 동기화</figcaption></figure>
+        <figure><img class="shot" src="assets/nomorepotion-inventory.gif" alt="공용 인벤토리 동기화" loading="lazy"><figcaption>공용 인벤토리</figcaption></figure>
+      </div>
+      <details><summary>GIF 2개 더 보기</summary><div class="gal">
+        <figure><img class="shot" src="assets/nomorepotion-corpse.gif" alt="시체 상자 동기화" loading="lazy"><figcaption>시체 상자를 여럿이 열어도 같은 내용</figcaption></figure>
+        <figure><img class="shot" src="assets/nomorepotion-environment.gif" alt="환경 지역" loading="lazy"><figcaption>지역마다 체온·정신력 변화</figcaption></figure>
+      </div></details>
+    </div>
+    <div>
+      <div class="t"><h3>NoMorePotion</h3><small>11.12 CBT 제출 · 개발 중</small></div>
+      <p class="meta">Unity 6 · Photon PUN 2 · ScriptableObject · Odin</p>
+      <p>기획 시트를 그대로 ScriptableObject로 뽑아 쓰는 구조를 만들었습니다. 포션 효과 276개를 시트에서 한 번에 생성하고, 새 효과는 코드 수정 없이 데이터로 추가합니다.</p>
+      <ul>
+        <li>담당: 기획, 데이터, 아이템, 생존 상태, 버프/디버프, 인벤토리·월드 오브젝트 동기화</li>
+        <li>팀 인벤토리·바닥 재료를 마스터가 검증한 뒤 동기화</li>
+        <li>포션 폭발은 "맞은 쪽이 적용" 규칙으로 중복 대미지 방지 (2클라이언트 확인)</li>
+        <li>방장 시드 하나로 오브젝트 30개 배치를 모든 기기에서 똑같이 계산</li>
+      </ul>
+      <p class="note">조합 조회 키에서 박싱이 생기는 걸 Profiler로 확인하고 고쳐서, 조회 10만 번에 30만 건 나던 할당을 없앴습니다.</p>
+      <p class="links"><a href="projects/nomorepotion.html">상세 문서</a></p>
+    </div>
+  </article>
+
+  <div class="co" style="margin-top:56px"><h3>(주)브릴라 · 프로그래밍팀</h3><span class="when">2019.11 ~ 2023.08 (3년 10개월)</span></div>
+  <p class="co-desc">Unreal Engine(Blueprint)으로 VR 게임, 메타버스, 체험형 콘텐츠 개발</p>
+
+  <div class="job">
+    <div>
+      <a href="https://store.steampowered.com/app/1330290/READY_AIM_FIRE/" target="_blank" rel="noopener"><img class="shot" src="assets/raf-ss1.jpg" alt="Ready Aim Fire 탱크 조종석 시점" loading="lazy"></a>
+      <div class="thumbs">
+        <img class="shot" src="assets/raf-capsule.jpg" alt="Ready Aim Fire 대표 이미지" loading="lazy">
+        <img class="shot" src="assets/raf-ss2.jpg" alt="Ready Aim Fire 플레이 화면" loading="lazy">
+        <img class="shot" src="assets/raf-ss3.jpg" alt="Ready Aim Fire 플레이 화면" loading="lazy">
+      </div>
+    </div>
+    <div>
+      <div class="t"><h3>Ready Aim Fire</h3><small>2020.03 ~ 2020.09 · PC VR · Steam 출시 (2020.09.14)</small></div>
+      <p>탱크 4종에 타서 싸우는 VR 슈팅 게임. 시스템 기획과 기능 개발을 같이 맡았습니다.</p>
+      <ul>
+        <li>VR 컨트롤러로 탱크를 몰고 포탑을 돌려 조준하는 조작계</li>
+        <li>실시간 PVP, 적 탱크 AI가 나오는 PVE 모드</li>
+        <li>Steamworks 연동, 출시 빌드 대응</li>
+      </ul>
+      <p class="links"><a href="https://store.steampowered.com/app/1330290/READY_AIM_FIRE/" target="_blank" rel="noopener">Steam 페이지</a><a href="https://youtu.be/xygY920VEc8" target="_blank" rel="noopener">티저 영상</a></p>
+    </div>
+  </div>
+
+  <div class="job">
+    <div><a class="vid" href="https://youtu.be/b6zV39Sj-uo" target="_blank" rel="noopener"><img class="shot" src="assets/kvr-thumb.jpg" alt="한국어 교육 VR 수업 화면" loading="lazy"></a></div>
+    <div>
+      <div class="t"><h3>한국어 교육 VR/AR</h3><small>2020.09 ~ 2021.11</small></div>
+      <p>해외 한국어 학습자용 VR 교육 콘텐츠. 물건을 직접 집고 만지면서 단어를 익히는 학습 세션을 설계하고 만들었습니다. 프로젝트가 중단되어 출시되지는 못했습니다.</p>
+      <p class="links"><a href="https://youtu.be/b6zV39Sj-uo" target="_blank" rel="noopener">소개 영상</a></p>
+    </div>
+  </div>
+
+  <div class="job">
+    <div><a class="vid" href="https://youtu.be/IEMqf7EgNb8" target="_blank" rel="noopener"><img class="shot" src="assets/israel-thumb1.jpg" alt="Israel in Korea Metaverse 로비 화면" loading="lazy"></a></div>
+    <div>
+      <div class="t"><h3>Israel in Korea Metaverse</h3><small>2021.12 ~ 2022.10 · Windows / Android / iOS · 대사관 외주</small></div>
+      <p>주한 이스라엘 대사관에 납품한 메타버스. 멀티플레이와 외부 SDK 연동을 맡았습니다.</p>
+      <ul>
+        <li>Dedicated Server 세션 생성, 방 검색, 입·퇴장</li>
+        <li>Agora SDK로 게임 안에서 Zoom처럼 화면 공유</li>
+        <li>3D 공간 음성 채팅, 관리자 기능(강퇴, 방 관리, 권한)</li>
+      </ul>
+      <p class="links"><a href="https://youtu.be/IEMqf7EgNb8" target="_blank" rel="noopener">소개 영상</a><a href="https://youtu.be/ZEMW-hGxPN0" target="_blank" rel="noopener">런칭 행사 영상</a></p>
+    </div>
+  </div>
+
+  <div class="job" style="grid-template-columns:1fr">
+    <div>
+      <div class="t"><h3>VR Painting</h3><small>2023.01 ~ 2023.03 · 구미 어린이 과학 체험관 납품</small></div>
+      <p>VR을 처음 써 보는 아이들을 위한 3D 드로잉 체험. 컨트롤러 궤적으로 공간에 그림을 그리고, 손이 작은 아이도 잡기 쉽게 Grab·UI 판정 범위를 크게 잡았습니다.</p>
+    </div>
+  </div>
+  <p class="links"><a href="https://app.notion.com/p/414372a69eaa81e1beb7d7ad5213970a" target="_blank" rel="noopener">브릴라 경력 상세 (Notion)</a></p>
+
+  <div class="side" style="margin-top:36px">
+    <div><p><b>유튜브 채널 '언즌'</b><span>2023.08 ~ · 구독자 3,500+ · 영상 410+</span></p><p>공포게임 실황 채널. 플레이어가 어디서 긴장하고 어디서 지루해하는지 직접 보면서 배웠습니다. <a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener">채널</a></p></div>
+    <div><p><b>코카콜라음료 하남지점</b><span>2024.05 ~ 2026.05 · 영업팀</span></p><p>음료 배송 담당.</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>교육</h2>
+
+  <div class="co"><h3>디벨로켓 Unity 게임 개발 과정</h3><span class="when">2026.06 ~ 2026.11</span></div>
+  <p class="co-desc">Unity 6 / C#으로 개인·팀 프로젝트를 진행하고 Git으로 협업했습니다. 아래는 과정 중에 만든 프로젝트입니다. (위의 기업협약 프로젝트도 이 과정에서 연계됐습니다)</p>
+
+  <article class="proj">
+    <div>
+      <a href="projects/infectstella.html"><img class="shot" src="assets/infectstella-cover.webp" alt="Infectstella 타이틀" loading="lazy"></a>
+      <details><summary>화면 5개</summary><div class="gal">
+        <figure><img class="shot" src="assets/infectstella-lobby.webp" alt="로비" loading="lazy"><figcaption>로비 방 목록</figcaption></figure>
+        <figure><img class="shot" src="assets/infectstella-room.webp" alt="방 생성" loading="lazy"><figcaption>방 생성, 대기실</figcaption></figure>
+        <figure><img class="shot" src="assets/infectstella-loading.webp" alt="로딩" loading="lazy"><figcaption>전원 로딩 후 입장</figcaption></figure>
+        <figure><img class="shot" src="assets/infectstella-ranking.webp" alt="랭킹" loading="lazy"><figcaption>Firebase 랭킹</figcaption></figure>
+        <figure><img class="shot" src="assets/infectstella-hud.webp" alt="정보창" loading="lazy"><figcaption>게임 정보창</figcaption></figure>
+      </div></details>
+    </div>
+    <div>
+      <h3>Infectstella</h3>
+      <p class="meta">네트워크 팀 프로젝트 · 3인 · 2주 (2026.10) · Unity 6, Photon PUN 2, Firebase, UniTask</p>
+      <p>접속해서 게임에 들어가고 정산·랭킹까지 가는 흐름을 맡았습니다.</p>
+      <ul>
+        <li>Firebase 익명 로그인, 닉네임, 랭킹</li>
+        <li>Photon 로비·방·대기실·채팅, 전원 로딩이 끝나면 게임 씬으로 넘어가는 비동기 전환</li>
+        <li>FSM으로 게임 진행, 감염자 선정, 골드 정산</li>
+      </ul>
+      <p class="note">PhotonView ViewID가 겹쳐서 매니저가 파괴되는 문제가 있었고, 초기화 전용 씬을 따로 두고 ID를 다시 맞춰서 해결했습니다.</p>
+      <p class="links"><a href="projects/infectstella.html">상세 문서</a><a href="https://enzeun.itch.io/infectstella" target="_blank" rel="noopener">itch.io</a><a href="https://github.com/Enzeun/Infectstellar_NetworkTeamProject" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div>
+      <a href="projects/after-the-ring.html"><img class="shot" src="assets/afterthering-cover.webp" alt="After the Ring 플레이 화면" loading="lazy"></a>
+      <details><summary>화면 5개</summary><div class="gal">
+        <figure><img class="shot" src="assets/afterthering-subtitle.webp" alt="자막" loading="lazy"><figcaption>자막 시퀀스</figcaption></figure>
+        <figure><img class="shot" src="assets/afterthering-lockdoor.webp" alt="문 잠금" loading="lazy"><figcaption>이벤트 후 문 잠김</figcaption></figure>
+        <figure><img class="shot" src="assets/afterthering-binding.webp" alt="암전" loading="lazy"><figcaption>이벤트 바인딩으로 암전</figcaption></figure>
+        <figure><img class="shot" src="assets/afterthering-npc.webp" alt="NPC 시선" loading="lazy"><figcaption>NPC 시선 처리</figcaption></figure>
+        <figure><img class="shot" src="assets/afterthering-objective.webp" alt="목표 중복" loading="lazy"><figcaption>목표 중복 완료 버그 재현</figcaption></figure>
+      </div></details>
+    </div>
+    <div>
+      <h3>After the Ring</h3>
+      <p class="meta">개인 프로젝트 · 약 3주 (2026.08 ~ 09) · Unity 6, UHFPS, UniTask, DOTween</p>
+      <p>혼자 기획부터 출시, 7개 언어 현지화까지 한 공포 게임입니다. itch.io 조회 260회, 다운로드 50회.</p>
+      <ul>
+        <li>UHFPS 원본은 목표 완료 처리 한 곳만 고치고, 나머지는 별도 컴포넌트로 추가</li>
+        <li>런타임 이벤트 바인더로 인스펙터에서 연출 연결</li>
+        <li>UniTask로 자막, 눈 깜빡임 암전, 텔레포트 연출</li>
+      </ul>
+      <p class="note">여러 연출이 같은 입력 잠금 상태를 건드려 꼬이는 문제가 있었고, 지금은 실행 시점을 나눠서 막아 둔 상태입니다. 우선순위 기반으로 다시 짤 계획입니다.</p>
+      <p class="links"><a href="projects/after-the-ring.html">상세 문서</a><a href="https://youtu.be/2PpvqcETudA" target="_blank" rel="noopener">트레일러</a><a href="https://enzeun.itch.io/after-the-ring" target="_blank" rel="noopener">itch.io</a><a href="https://github.com/Enzeun/Project_HorrorGame_First" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </article>
+
+  <article class="proj">
+    <div><a href="projects/last-magician.html"><img class="shot" src="assets/lastmagician-cover.webp" alt="Last Magician 전투 화면" loading="lazy"></a></div>
+    <div>
+      <h3>Last Magician</h3>
+      <p class="meta">팀 프로젝트 · 3인 (팀장) · 5일 (2026.08) · Unity 6</p>
+      <p>적이 다음 행동을 먼저 보여주고, 플레이어가 그걸 보고 대응하는 턴제 전투입니다.</p>
+      <ul>
+        <li>턴 상태 머신으로 전투 흐름 구성</li>
+        <li>스킬 큐와 적 큐를 따로 두어 예약한 순서대로 실행</li>
+        <li>팀장으로 Player·Skill·Enemy 통합, Git 규칙과 커밋 컨벤션 정리</li>
+      </ul>
+      <p class="note">TurnManager 하나에 일이 몰렸습니다. 다시 만든다면 턴 진행과 스킬 처리를 나누겠습니다.</p>
+      <p class="links"><a href="projects/last-magician.html">상세 문서</a><a href="https://youtu.be/2JqrTg7JXtc" target="_blank" rel="noopener">소개 영상</a><a href="https://youtu.be/9xxAzuLPrT8" target="_blank" rel="noopener">전투 영상</a><a href="https://github.com/Enzeun/DEVELROCKET_TeamProject" target="_blank" rel="noopener">GitHub</a></p>
+    </div>
+  </article>
+</div></section>
 
 </main>
 
-<footer><div class="wrap">김현준 · Unity / C# Game Client Programmer · <a href="https://github.com/Enzeun" target="_blank" rel="noopener">github.com/Enzeun</a> · <span class="mail" style="margin:0">khuynjun123@naver.com</span></div></footer>
+<footer class="wrap">김현준 · khuynjun123@naver.com</footer>
 </body>
 </html>
