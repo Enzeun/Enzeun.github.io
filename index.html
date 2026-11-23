@@ -181,8 +181,7 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
     <p class="lead-in">언리얼 엔진으로 3년 10개월 동안 VR 게임과 메타버스를 출시·납품했고,<br>올해는 Unity로 게임을 만들고 있습니다.</p>
     <ul class="pts">
       <li>입사 후 언리얼을 독학해, 10개월 만에 VR 실시간 멀티플레이 게임 'Ready Aim Fire' Steam 출시</li>
-      <li>첫 멀티플레이를 작은 실험을 반복하며 직접 이해</li>
-      <li>한국어 교육 VR/AR 학습 세션 설계·개발</li>
+      <li>한국어 교육 VR/AR 학습 설계·개발</li>
       <li>주한 이스라엘 대사관 메타버스 납품 (Windows · Android · iOS)</li>
       <li>과학관 어린이 VR 체험물 납품</li>
       <li>현재: 리자드 스무디 기업협약 'NoMorePotion'에서 기획, 데이터, 인벤토리·월드 오브젝트 동기화 담당</li>
@@ -217,14 +216,14 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
     <div>
       <div class="t"><h3>NoMorePotion</h3><small>11.12 CBT 제출 · 개발 중</small></div>
       <p class="meta">Unity 6 · Photon PUN 2 · ScriptableObject · Odin</p>
-      <p>기획 시트를 그대로 ScriptableObject로 뽑아 쓰는 구조를 만들었습니다. 포션 효과 276개를 시트에서 한 번에 생성하고, 새 효과는 코드 수정 없이 데이터로 추가합니다.</p>
+      <p>기획자가 쉽게 수정할 수 있는 ScriptableObject 생성 툴을 만들었습니다. 포션 효과 재료 등 새로운 추가효과들도 코드 수정 없이 데이터로 추가할 수 있도록 설계했습니다.</p>
       <ul>
         <li>담당: 기획, 데이터, 아이템, 생존 상태, 버프/디버프, 인벤토리·월드 오브젝트 동기화</li>
         <li>팀 인벤토리·바닥 재료를 마스터가 검증한 뒤 동기화</li>
         <li>포션 폭발은 "맞은 쪽이 적용" 규칙으로 중복 대미지 방지 (2클라이언트 확인)</li>
-        <li>방장 시드 하나로 오브젝트 30개 배치를 모든 기기에서 똑같이 계산</li>
+        <li>방장 시드 하나로 오브젝트 3000개 배치를 모든 기기에서 똑같이 계산</li>
       </ul>
-      <p class="note">조합 조회 키에서 박싱이 생기는 걸 Profiler로 확인하고 고쳐서, 조회 10만 번에 30만 건 나던 할당을 없앴습니다.</p>
+      <p class="note">조합식 조회 키에서 박싱이 생기는 걸 Profiler로 확인하고 고쳐서, 조회 10만 번에 30만 건 나던 할당을 없앴습니다.</p>
       <p class="links"><a href="projects/nomorepotion.html">상세 문서</a></p>
     </div>
   </article>
@@ -241,7 +240,7 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
     </div>
     <div>
       <div class="t"><h3>Ready Aim Fire</h3><small>2020.03 ~ 2020.09 · PC VR · Steam 출시 (2020.09.14)</small></div>
-      <p>탱크 4종에 타서 싸우는 VR 슈팅 게임. 시스템 기획과 기능 개발을 같이 맡았습니다.</p>
+      <p>탱크 4종에 타서 싸우는 VR 슈팅 게임. 시스템 기획과 기능 개발을 모두 맡았습니다.</p>
       <ul>
         <li>VR 컨트롤러로 탱크를 몰고 포탑을 돌려 조준하는 조작계</li>
         <li>실시간 PVP, 적 탱크 AI가 나오는 PVE 모드</li>
@@ -256,7 +255,7 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
     <div><a class="vid" href="https://youtu.be/b6zV39Sj-uo" target="_blank" rel="noopener"><img class="shot" src="assets/kvr-thumb.jpg" alt="한국어 교육 VR 수업 화면" loading="lazy"></a></div>
     <div>
       <div class="t"><h3>한국어 교육 VR/AR</h3><small>2020.09 ~ 2021.11</small></div>
-      <p>해외 한국어 학습자용 VR 교육 콘텐츠. 물건을 직접 집고 만지면서 단어를 익히는 학습 세션을 설계하고 만들었습니다. Google TTS(음성 합성)와 STT(음성 인식)를 연동해, 외국인 학습자가 한국어를 듣고 직접 말로 답하며 익힐 수 있는 환경을 만들었습니다. 말로 답하는 문제는 STT로 인식한 문장을 정답 문자열과 비교해, 얼마나 비슷한지를 계산해 결과로 보여 줬습니다. 프로젝트가 중단되어 출시되지는 못했습니다.</p>
+      <p>해외 한국어 학습자용 VR 교육 콘텐츠. 물건을 직접 집고 만지면서 단어를 익히는 학습 프로그램을 설계하고 만들었습니다. Google TTS(음성 합성)와 STT(음성 인식)를 연동해, 외국인 학습자가 한국어를 듣고 직접 말로 답하며 익힐 수 있는 환경을 만들었습니다. 말로 답하는 문제는 STT로 인식한 문장을 정답 문자열과 비교해, 얼마나 비슷한지를 계산해 결과로 보여 줬습니다. 프로젝트가 중단되어 출시되지는 못했습니다.</p>
       <p class="links"><a href="https://youtu.be/b6zV39Sj-uo" target="_blank" rel="noopener">소개 영상</a></p>
     </div>
   </div>
@@ -279,7 +278,7 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
   <div class="job" style="grid-template-columns:1fr">
     <div>
       <div class="t"><h3>VR Painting</h3><small>2023.01 ~ 2023.03 · 구미 어린이 과학 체험관 납품</small></div>
-      <p>VR을 처음 써 보는 아이들을 위한 3D 드로잉 체험. 컨트롤러 궤적으로 공간에 그림을 그리고, 손이 작은 아이도 잡기 쉽게 Grab·UI 판정 범위를 크게 잡았습니다.</p>
+      <p>VR을 처음 써 보는 아이들을 위한 3D 드로잉 체험 시뮬레이션 입니다. 컨트롤러 궤적으로 공간에 그림을 그리고, 색을 칠할 수 있습니다.</p>
     </div>
   </div>
   <p class="links"><a href="https://app.notion.com/p/414372a69eaa81e1beb7d7ad5213970a" target="_blank" rel="noopener">브릴라 경력 상세 (Notion)</a></p>
@@ -337,7 +336,7 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
         <li>런타임 이벤트 바인더로 인스펙터에서 연출 연결</li>
         <li>UniTask로 자막, 눈 깜빡임 암전, 텔레포트 연출</li>
       </ul>
-      <p class="note">여러 연출이 같은 입력 잠금 상태를 건드려 꼬이는 문제가 있었고, 지금은 실행 시점을 나눠서 막아 둔 상태입니다. 우선순위 기반으로 다시 짤 계획입니다.</p>
+      <p class="note">여러 연출이 같은 입력 잠금 상태를 건드려 꼬이는 문제가 있었고, 실행 시점을 나눠서 해결했습니다.</p>
       <p class="links"><a href="projects/after-the-ring.html">상세 문서</a><a href="https://youtu.be/2PpvqcETudA" target="_blank" rel="noopener">트레일러</a><a href="https://enzeun.itch.io/after-the-ring" target="_blank" rel="noopener">itch.io</a><a href="https://github.com/Enzeun/Project_HorrorGame_First" target="_blank" rel="noopener">GitHub</a></p>
     </div>
   </article>
@@ -353,7 +352,7 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
         <li>스킬 큐와 적 큐를 따로 두어 예약한 순서대로 실행</li>
         <li>팀장으로 Player·Skill·Enemy 통합, Git 규칙과 커밋 컨벤션 정리</li>
       </ul>
-      <p class="note">TurnManager 하나에 일이 몰렸습니다. 다시 만든다면 턴 진행과 스킬 처리를 나누겠습니다.</p>
+      <p class="note">TurnManager 하나에 일이 몰려 거대해졌습니다. 다시 만든다면 턴 진행과 스킬 처리를 나누겠습니다.</p>
       <p class="links"><a href="projects/last-magician.html">상세 문서</a><a href="https://youtu.be/2JqrTg7JXtc" target="_blank" rel="noopener">소개 영상</a><a href="https://youtu.be/9xxAzuLPrT8" target="_blank" rel="noopener">전투 영상</a><a href="https://github.com/Enzeun/DEVELROCKET_TeamProject" target="_blank" rel="noopener">GitHub</a></p>
     </div>
   </article>
