@@ -21,7 +21,7 @@ img{max-width:100%;display:block}
 
 /* 상단: 사진 + 이름 + 연락처 | About */
 /* 왼쪽 칸은 연락처 길이에 맞춰 늘어남(최소 260px). 고정 너비면 화면 배율이 클 때 이메일이 줄바꿈됨 */
-.head{display:grid;grid-template-columns:minmax(260px,max-content) minmax(0,1fr);gap:48px;padding-top:36px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
+.head{display:grid;grid-template-columns:minmax(260px,max-content) minmax(0,1fr);gap:40px 48px;padding-top:56px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
 .me{width:220px;height:270px;object-fit:cover;border-radius:4px}
 .name{font-size:2.3rem;font-weight:700;margin:18px 0 2px;letter-spacing:-.02em;line-height:1.2}
 .role{color:var(--mute);margin:0 0 14px}
@@ -32,7 +32,9 @@ img{max-width:100%;display:block}
 .ic{width:15px;height:15px;fill:currentColor;flex:none}
 
 /* 맨 위 버튼 줄: 왼쪽은 외부 링크, 오른쪽은 화면 설정과 PDF 저장 */
-.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-top:24px}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+/* 상단 영역(사진·About) 아래, 두 칸을 가로질러 한 줄로 */
+.head .bar{grid-column:1/-1;margin-top:-8px}
 .bar .grp{display:flex;flex-wrap:wrap;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid var(--line);border-radius:8px;background:var(--soft);color:var(--ink);font:inherit;font-size:.92rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;transition:border-color .15s}
 .btn:hover,.btn:focus-visible{border-color:var(--ink)}
@@ -70,12 +72,15 @@ li{margin-bottom:3px}
 .job .t small{color:var(--mute);font-size:.9rem}
 .job p{margin:0}
 .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.links{margin-top:10px;font-size:.92rem}
-.links a{margin-right:14px}
+/* 본문 링크: 상단 버튼과 같은 모양을 작게. 프로젝트마다 3~4개라 크게 하면 내용보다 버튼이 먼저 보임 */
+.links{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.links a,.side p a{display:inline-flex;align-items:center;padding:4px 11px;border:1px solid var(--line);border-radius:6px;background:var(--soft);color:var(--ink);font-size:.84rem;font-weight:600;line-height:1.4;text-decoration:none;transition:border-color .15s}
+.links a:hover,.side p a:hover,.links a:focus-visible,.side p a:focus-visible{border-color:var(--ink)}
+.side p a{margin-left:4px;vertical-align:1px}
 .vid{position:relative;display:block}
 .vid::after{content:"▶ 영상";position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.7);color:#fff;font-size:.8rem;padding:2px 8px;border-radius:3px}
 .side{display:grid;gap:14px;margin-top:8px}
-.side div{display:grid;grid-template-columns:220px 1fr;gap:4px 24px}
+.side div{display:grid;grid-template-columns:260px 1fr;gap:4px 24px}
 .side b{display:block}
 .side span{color:var(--mute);font-size:.9rem}
 .side p{margin:0}
@@ -144,7 +149,9 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   .co-desc{margin-bottom:8px}
   .job,.proj,.feature{grid-template-columns:150px minmax(0,1fr);gap:14px;padding:6px 0;break-inside:avoid}
   .note{padding:5px 8px;margin-top:6px}
-  .links{margin-top:4px}
+  .links{margin-top:4px;gap:0 12px}
+  /* 종이에서는 버튼 테두리가 의미 없으니 글자 링크로 */
+  .links a,.side p a{border:0;background:none;padding:0;color:var(--link);font-weight:400;font-size:.9rem}
   ul{margin-top:4px}
   .side{gap:6px}
   .side div{grid-template-columns:220px minmax(0,1fr);gap:0 14px}
@@ -195,19 +202,6 @@ document.addEventListener('DOMContentLoaded',updateThemeBtn);
 </head>
 <body>
 
-<nav class="wrap bar noprint" aria-label="바로가기">
-  <div class="grp">
-    <a class="btn" href="https://github.com/Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
-    <a class="btn" href="https://www.youtube.com/@Dev_Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>강의 채널</a>
-    <a class="btn" href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>공포게임 채널</a>
-  </div>
-  <div class="grp">
-    <button type="button" class="btn" id="themeBtn" onclick="toggleTheme()" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 2v14a7 7 0 010-14z"/></svg><span>다크 모드</span></button>
-    <button type="button" class="btn" onclick="savePdf(true)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h20v12H2zm2 2v8h16V8z"/></svg>PDF 가로</button>
-    <button type="button" class="btn" onclick="savePdf(false)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v20H6zm2 2v16h8V4z"/></svg>PDF 세로</button>
-  </div>
-</nav>
-
 <header class="wrap head">
   <div>
     <img class="me" src="assets/profile.webp" alt="김현준 사진">
@@ -240,6 +234,18 @@ document.addEventListener('DOMContentLoaded',updateThemeBtn);
       <li><span>2019.11 ~ 2023.08</span>(주)브릴라 프로그래밍팀 · 언리얼 VR 게임·메타버스 (3년 10개월)</li>
     </ol>
   </div>
+<nav class="bar noprint" aria-label="바로가기">
+  <div class="grp">
+    <a class="btn" href="https://github.com/Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+    <a class="btn" href="https://www.youtube.com/@Dev_Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>강의 채널</a>
+    <a class="btn" href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>공포게임 채널</a>
+  </div>
+  <div class="grp">
+    <button type="button" class="btn" id="themeBtn" onclick="toggleTheme()" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 2v14a7 7 0 010-14z"/></svg><span>다크 모드</span></button>
+    <button type="button" class="btn" onclick="savePdf(true)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h20v12H2zm2 2v8h16V8z"/></svg>PDF 가로</button>
+    <button type="button" class="btn" onclick="savePdf(false)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v20H6zm2 2v16h8V4z"/></svg>PDF 세로</button>
+  </div>
+</nav>
 </header>
 
 <main>
