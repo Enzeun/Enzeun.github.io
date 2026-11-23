@@ -33,7 +33,9 @@ code{font-family:Consolas,"D2Coding",ui-monospace,monospace;font-size:.88em;back
 .info{display:grid;grid-template-columns:110px minmax(0,1fr);border-top:2px solid var(--ink);margin:0 0 12px}
 .info dt,.info dd{margin:0;padding:9px 0;border-bottom:1px solid var(--line)}
 .info dt{color:var(--mute);font-size:.9rem}
-.links{display:flex;flex-wrap:wrap;gap:4px 16px}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.links a,.pager a{display:inline-flex;align-items:center;padding:5px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink);font-size:.88rem;font-weight:600;line-height:1.4;text-decoration:none;transition:border-color .15s}
+.links a:hover,.pager a:hover,.links a:focus-visible,.pager a:focus-visible{border-color:var(--ink)}
 
 /* 본문 섹션 */
 section{padding:36px 0 4px;border-top:1px solid var(--line);margin-top:28px}
@@ -86,8 +88,7 @@ pre.solo{border:1px solid var(--line);border-radius:4px;margin:0 0 20px}
 pre code{background:none;padding:0;color:inherit;font-size:inherit}
 
 /* 하단 이동 */
-.pager{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:28px 0 52px;border-top:1px solid var(--line);margin-top:40px;font-size:.93rem}
-.pager a{text-decoration:none}
+.pager{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:28px 0 52px;border-top:1px solid var(--line);margin-top:40px}
 
 /* 플로팅 목차: 넓은 화면에서만 본문 오른쪽에 고정 */
 h2,h3{scroll-margin-top:72px}
@@ -125,6 +126,8 @@ h2,h3{scroll-margin-top:72px}
   :root{--bg:#fff;--surface:#fff;--ink:#111;--mute:#555;--line:#ccc;--accent:#1d4f91;--tag:#eee;--code-bg:#f6f6f6;--code-ink:#111}
   body{font-size:9.5pt;line-height:1.55}
   .topnav,.pager,.video{display:none}
+  .links{gap:0 14px}
+  .links a{border:0;background:none;padding:0;color:var(--accent);font-weight:400}
   details.code{display:none}
   section{break-inside:auto;padding-top:14px;margin-top:10px}
   figure,.pdr,table{break-inside:avoid}
