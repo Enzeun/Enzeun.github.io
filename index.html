@@ -21,7 +21,7 @@ img{max-width:100%;display:block}
 
 /* 상단: 사진 + 이름 + 연락처 | About */
 /* 왼쪽 칸은 연락처 길이에 맞춰 늘어남(최소 260px). 고정 너비면 화면 배율이 클 때 이메일이 줄바꿈됨 */
-.head{display:grid;grid-template-columns:minmax(260px,max-content) minmax(0,1fr);gap:48px;padding-top:64px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
+.head{display:grid;grid-template-columns:minmax(260px,max-content) minmax(0,1fr);gap:48px;padding-top:36px;padding-bottom:48px;border-bottom:2px solid var(--ink)}
 .me{width:220px;height:270px;object-fit:cover;border-radius:4px}
 .name{font-size:2.3rem;font-weight:700;margin:18px 0 2px;letter-spacing:-.02em;line-height:1.2}
 .role{color:var(--mute);margin:0 0 14px}
@@ -30,6 +30,15 @@ img{max-width:100%;display:block}
 .contact dt{display:flex;align-items:center;gap:7px;color:var(--mute)}
 .contact dd{margin:0;white-space:nowrap}
 .ic{width:15px;height:15px;fill:currentColor;flex:none}
+
+/* 맨 위 버튼 줄: 왼쪽은 외부 링크, 오른쪽은 화면 설정과 PDF 저장 */
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-top:24px}
+.bar .grp{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid var(--line);border-radius:8px;background:var(--soft);color:var(--ink);font:inherit;font-size:.92rem;font-weight:600;line-height:1.2;text-decoration:none;cursor:pointer;transition:border-color .15s}
+.btn:hover,.btn:focus-visible{border-color:var(--ink)}
+.btn .ic{width:17px;height:17px}
+/* GitHub·유튜브는 화면에서는 위 버튼으로 보여 주고, PDF에는 버튼이 안 찍히니 연락처 줄로만 남김 */
+.contact .po{display:none}
 .about h2{margin-top:0}
 .about p{margin:0 0 14px}
 .about .lead-in{font-weight:700;margin-bottom:10px}
@@ -145,6 +154,8 @@ footer{padding-top:28px;padding-bottom:48px;color:var(--mute);font-size:.85rem}
   .media .stage{border-radius:2px}
   .media .cap{display:none}
   .noprint,details{display:none!important}
+  .contact dt.po{display:flex}
+  .contact dd.po{display:block}
   footer{padding:8px 0 0}
 }
 </style>
@@ -158,9 +169,42 @@ function savePdf(landscape){
   try{window.print()}catch(e){}
 }
 window.addEventListener('afterprint',function(){var s=document.getElementById('page-orient');if(s)s.textContent='';});
+
+// 다크/라이트 전환: 고른 값은 이 브라우저에만 저장. 저장된 값이 없으면 시스템 설정을 따름
+(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;}catch(e){}})();
+function currentTheme(){
+  var t=document.documentElement.dataset.theme;
+  if(t==='dark'||t==='light') return t;
+  return window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+}
+function updateThemeBtn(){
+  var b=document.getElementById('themeBtn'); if(!b) return;
+  var dark=currentTheme()==='dark';
+  b.querySelector('span').textContent = dark ? '라이트 모드' : '다크 모드';
+  b.setAttribute('aria-pressed', dark ? 'true' : 'false');
+}
+function toggleTheme(){
+  var next=currentTheme()==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=next;
+  try{localStorage.setItem('theme',next)}catch(e){}
+  updateThemeBtn();
+}
+document.addEventListener('DOMContentLoaded',updateThemeBtn);
 </script>
 </head>
 <body>
+
+<nav class="wrap bar noprint" aria-label="바로가기">
+  <div class="grp">
+    <a class="btn" href="https://github.com/Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>
+    <a class="btn" href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>유튜브</a>
+  </div>
+  <div class="grp">
+    <button type="button" class="btn" id="themeBtn" onclick="toggleTheme()" aria-pressed="false"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18 9 9 0 000-18zm0 2v14a7 7 0 010-14z"/></svg><span>다크 모드</span></button>
+    <button type="button" class="btn" onclick="savePdf(true)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h20v12H2zm2 2v8h16V8z"/></svg>PDF 가로</button>
+    <button type="button" class="btn" onclick="savePdf(false)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v20H6zm2 2v16h8V4z"/></svg>PDF 세로</button>
+  </div>
+</nav>
 
 <header class="wrap head">
   <div>
@@ -172,8 +216,8 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
       <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z"/></svg>전화</dt><dd>010-7375-9122</dd>
       <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7zm0 9.5A2.5 2.5 0 1112 6.5a2.5 2.5 0 010 5z"/></svg>주소</dt><dd>경기도 용인시 기흥구</dd>
       <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 1 9l11 6 9-4.9V17h2V9zM5 13.2v4L12 21l7-3.8v-4L12 17z"/></svg>학력</dt><dd>한양대학교 기계공학부 졸업</dd>
-      <dt><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</dt><dd><a href="https://github.com/Enzeun" target="_blank" rel="noopener">github.com/Enzeun</a></dd>
-      <dt><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>유튜브</dt><dd><a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener">언즌</a></dd>
+      <dt class="po"><svg class="ic" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</dt><dd class="po"><a href="https://github.com/Enzeun" target="_blank" rel="noopener">github.com/Enzeun</a></dd>
+      <dt class="po"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6z"/></svg>유튜브</dt><dd class="po"><a href="https://www.youtube.com/@G_Enzeun" target="_blank" rel="noopener">언즌</a></dd>
     </dl>
   </div>
   <div class="about">
@@ -193,7 +237,6 @@ window.addEventListener('afterprint',function(){var s=document.getElementById('p
       <li><span>2023.08 ~</span>유튜브 공포게임 채널 '언즌' 운영</li>
       <li><span>2019.11 ~ 2023.08</span>(주)브릴라 프로그래밍팀 · 언리얼 VR 게임·메타버스 (3년 10개월)</li>
     </ol>
-    <p class="pdf noprint">PDF로 저장: <button type="button" onclick="savePdf(false)">세로</button> / <button type="button" onclick="savePdf(true)">가로</button></p>
   </div>
 </header>
 
